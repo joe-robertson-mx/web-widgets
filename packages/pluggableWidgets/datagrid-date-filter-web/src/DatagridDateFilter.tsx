@@ -5,10 +5,12 @@ import { FilterComponent } from "./components/FilterComponent";
 import { DatagridDateFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridDateFilterProps";
 import { registerLocale } from "react-datepicker";
 import * as locales from "date-fns/locale";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { getFilterDispatcher, FilterType } from "@mendix/widget-plugin-filtering";
 
 import { changeTimeToMidnight } from "./utils/utils";
-import { addDays, isEqual } from "date-fns";
+import { addDays, isEqual, Locale } from "date-fns";
 
 import {
     and,
@@ -27,8 +29,8 @@ import { ListAttributeValue } from "mendix";
 import { translateFilters } from "./utils/filters";
 import { RangeDateValue } from "./components/DatePicker";
 
-interface Locale {
-    [key: string]: object;
+interface DateFilterLocale {
+    [key: string]: Locale;
 }
 
 export default function DatagridDateFilter(props: DatagridDateFilterContainerProps): ReactElement | null {
@@ -39,9 +41,9 @@ export default function DatagridDateFilter(props: DatagridDateFilterContainerPro
     const languageTagWithoutDash = languageTag.replace("-", "");
 
     if (languageTagWithoutDash in locales) {
-        registerLocale(language, (locales as Locale)[languageTagWithoutDash]);
+        registerLocale(language, (locales as DateFilterLocale)[languageTagWithoutDash]);
     } else if (language in locales) {
-        registerLocale(language, (locales as Locale)[language]);
+        registerLocale(language, (locales as DateFilterLocale)[language]);
     }
 
     const alertMessage = (
@@ -119,6 +121,8 @@ export default function DatagridDateFilter(props: DatagridDateFilterContainerPro
                         styles={props.style}
                         tabIndex={props.tabIndex}
                         calendarStartDay={firstDayOfWeek}
+                        name={props.name}
+                        parentChannelName={filterContextValue.eventsChannelName ?? null}
                         updateFilters={(
                             value: Date | undefined,
                             rangeValues: RangeDateValue,

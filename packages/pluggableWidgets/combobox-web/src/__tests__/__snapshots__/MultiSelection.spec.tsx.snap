@@ -1,214 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Combo box (Association) adds new item to inital selected item 1`] = `
-<div>
-  <div
-    class="widget-combobox"
-  >
-    <div
-      class="form-control widget-combobox-input-container widget-combobox-input-container-active"
-      tabindex="-1"
-    >
-      <div
-        class="widget-combobox-selected-items"
-      >
-        <input
-          aria-activedescendant="downshift-12-item-1"
-          aria-autocomplete="list"
-          aria-controls="downshift-12-menu"
-          aria-expanded="true"
-          aria-labelledby="comboBox1-label"
-          autocomplete="off"
-          class="widget-combobox-input"
-          id="comboBox1"
-          placeholder="111"
-          role="combobox"
-          value=""
-        />
-      </div>
-      <button
-        class="widget-combobox-clear-button"
-      >
-        <span
-          class="widget-combobox-icon-container"
-        >
-          <svg
-            class="widget-combobox-clear-button-icon"
-            fill="currentColor"
-            height="10"
-            viewBox="0 0 329 329"
-            width="10"
-          >
-            <path
-              d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"
-            />
-          </svg>
-        </span>
-      </button>
-      <div
-        aria-controls="downshift-12-menu"
-        aria-expanded="true"
-        class="widget-combobox-down-arrow"
-        id="downshift-12-toggle-button"
-        tabindex="-1"
-      >
-        <span
-          class="widget-combobox-icon-container"
-        >
-          <svg
-            class="widget-combobox-down-arrow-icon active"
-            fill="currentColor"
-            height="20"
-            viewBox="0 0 20 20"
-            width="20"
-          >
-            <path
-              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
-            />
-          </svg>
-        </span>
-      </div>
-    </div>
-    <div
-      class="widget-combobox-menu"
-    >
-      <ul
-        aria-labelledby="comboBox1-label"
-        class="widget-combobox-menu-list"
-        id="downshift-12-menu"
-        role="listbox"
-      >
-        <li
-          aria-selected="true"
-          class="widget-combobox-item widget-combobox-item-highlighted"
-          id="downshift-12-item-0"
-          role="option"
-        >
-          <span
-            class="widget-combobox-icon-container"
-          >
-            <svg
-              class="widget-combobox-down-checkbox-icon checked"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="20"
-                rx="5"
-                width="20"
-                x="2"
-              />
-              <path
-                d="M7 10.3077L10.6923 14L17.4615 6"
-              />
-            </svg>
-          </span>
-          <span>
-            111
-          </span>
-        </li>
-        <li
-          aria-selected="false"
-          class="widget-combobox-item widget-combobox-item-highlighted"
-          id="downshift-12-item-1"
-          role="option"
-        >
-          <span
-            class="widget-combobox-icon-container"
-          >
-            <svg
-              class="widget-combobox-down-checkbox-icon"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="19"
-                rx="4.5"
-                width="19"
-                x="2.5"
-                y="0.5"
-              />
-            </svg>
-          </span>
-          <span>
-            222
-          </span>
-        </li>
-        <li
-          aria-selected="false"
-          class="widget-combobox-item"
-          id="downshift-12-item-2"
-          role="option"
-        >
-          <span
-            class="widget-combobox-icon-container"
-          >
-            <svg
-              class="widget-combobox-down-checkbox-icon"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="19"
-                rx="4.5"
-                width="19"
-                x="2.5"
-                y="0.5"
-              />
-            </svg>
-          </span>
-          <span>
-            333
-          </span>
-        </li>
-        <li
-          aria-selected="false"
-          class="widget-combobox-item"
-          id="downshift-12-item-3"
-          role="option"
-        >
-          <span
-            class="widget-combobox-icon-container"
-          >
-            <svg
-              class="widget-combobox-down-checkbox-icon"
-              height="20"
-              viewBox="0 0 24 20"
-              width="24"
-            >
-              <rect
-                height="19"
-                rx="4.5"
-                width="19"
-                x="2.5"
-                y="0.5"
-              />
-            </svg>
-          </span>
-          <span>
-            444
-          </span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-`;
-
 exports[`Combo box (Association) renders combobox widget 1`] = `
 <div>
   <div
     class="widget-combobox"
   >
     <div
+      aria-controls="downshift-0-menu"
+      aria-expanded="false"
       class="form-control widget-combobox-input-container"
+      id="downshift-0-toggle-button"
       tabindex="-1"
     >
       <div
-        class="widget-combobox-selected-items"
+        class="widget-combobox-selected-items widget-combobox-text"
       >
         <input
           aria-activedescendant=""
@@ -219,12 +24,18 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
           autocomplete="off"
           class="widget-combobox-input"
           id="comboBox1"
-          placeholder="111"
+          placeholder=" "
           role="combobox"
           value=""
         />
+        <div
+          class="widget-combobox-placeholder-text"
+        >
+          111
+        </div>
       </div>
       <button
+        aria-label="Clear selection"
         class="widget-combobox-clear-button"
       >
         <span
@@ -232,36 +43,34 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
         >
           <svg
             class="widget-combobox-clear-button-icon"
-            fill="currentColor"
-            height="10"
-            viewBox="0 0 329 329"
-            width="10"
+            height="14"
+            viewBox="0 0 32 32"
+            width="14"
           >
             <path
-              d="m194.800781 164.769531 128.210938-128.214843c8.34375-8.339844 8.34375-21.824219 0-30.164063-8.339844-8.339844-21.824219-8.339844-30.164063 0l-128.214844 128.214844-128.210937-128.214844c-8.34375-8.339844-21.824219-8.339844-30.164063 0-8.34375 8.339844-8.34375 21.824219 0 30.164063l128.210938 128.214843-128.210938 128.214844c-8.34375 8.339844-8.34375 21.824219 0 30.164063 4.15625 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921875-2.089844 15.082031-6.25l128.210937-128.214844 128.214844 128.214844c4.160156 4.160156 9.621094 6.25 15.082032 6.25 5.460937 0 10.921874-2.089844 15.082031-6.25 8.34375-8.339844 8.34375-21.824219 0-30.164063zm0 0"
+              d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
             />
           </svg>
         </span>
       </button>
       <div
-        aria-controls="downshift-0-menu"
-        aria-expanded="false"
         class="widget-combobox-down-arrow"
-        id="downshift-0-toggle-button"
-        tabindex="-1"
       >
         <span
           class="widget-combobox-icon-container"
         >
           <svg
-            class="widget-combobox-down-arrow-icon"
-            fill="currentColor"
-            height="20"
-            viewBox="0 0 20 20"
-            width="20"
+            class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
           >
             <path
-              d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
             />
           </svg>
         </span>
@@ -269,11 +78,257 @@ exports[`Combo box (Association) renders combobox widget 1`] = `
     </div>
     <div
       class="widget-combobox-menu widget-combobox-menu-hidden"
+      style="visibility: hidden; position: fixed;"
     >
+      <div
+        class="widget-combobox-menu-header widget-combobox-item"
+        tabindex="0"
+      >
+        <span
+          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
+        >
+          <input
+            checked=""
+            class="three-state-checkbox"
+            id="comboBox1-select-all-button"
+            type="checkbox"
+          />
+        </span>
+        <label
+          class="widget-combobox-caption-text"
+          for="comboBox1-select-all-button"
+        >
+          Select All
+        </label>
+      </div>
       <ul
         aria-labelledby="comboBox1-label"
         class="widget-combobox-menu-list"
         id="downshift-0-menu"
+        role="listbox"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Combo box (Association) toggles combobox menu on: input CLICK(focus) / BLUR 1`] = `
+<div>
+  <div
+    class="widget-combobox"
+  >
+    <div
+      aria-controls="downshift-2-menu"
+      aria-expanded="false"
+      class="form-control widget-combobox-input-container"
+      id="downshift-2-toggle-button"
+      tabindex="-1"
+    >
+      <div
+        class="widget-combobox-selected-items widget-combobox-text"
+      >
+        <input
+          aria-activedescendant=""
+          aria-autocomplete="list"
+          aria-controls="downshift-2-menu"
+          aria-expanded="false"
+          aria-labelledby="comboBox1-label"
+          autocomplete="off"
+          class="widget-combobox-input"
+          id="comboBox1"
+          placeholder=" "
+          role="combobox"
+          value=""
+        />
+        <div
+          class="widget-combobox-placeholder-text"
+        >
+          111
+        </div>
+      </div>
+      <button
+        aria-label="Clear selection"
+        class="widget-combobox-clear-button"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-clear-button-icon"
+            height="14"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        class="widget-combobox-down-arrow"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
+          >
+            <path
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div
+      class="widget-combobox-menu widget-combobox-menu-hidden"
+      style="visibility: visible; position: fixed; width: 0px; top: 0px; left: 0px;"
+    >
+      <div
+        class="widget-combobox-menu-header widget-combobox-item"
+        tabindex="0"
+      >
+        <span
+          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
+        >
+          <input
+            checked=""
+            class="three-state-checkbox"
+            id="comboBox1-select-all-button"
+            type="checkbox"
+          />
+        </span>
+        <label
+          class="widget-combobox-caption-text"
+          for="comboBox1-select-all-button"
+        >
+          Select All
+        </label>
+      </div>
+      <ul
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-2-menu"
+        role="listbox"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Combo box (Association) toggles combobox menu on: input TOGGLE BUTTON 1`] = `
+<div>
+  <div
+    class="widget-combobox"
+  >
+    <div
+      aria-controls="downshift-7-menu"
+      aria-expanded="false"
+      class="form-control widget-combobox-input-container"
+      id="downshift-7-toggle-button"
+      tabindex="-1"
+    >
+      <div
+        class="widget-combobox-selected-items widget-combobox-text"
+      >
+        <input
+          aria-activedescendant=""
+          aria-autocomplete="list"
+          aria-controls="downshift-7-menu"
+          aria-expanded="false"
+          aria-labelledby="comboBox1-label"
+          autocomplete="off"
+          class="widget-combobox-input"
+          id="comboBox1"
+          placeholder=" "
+          role="combobox"
+          value=""
+        />
+        <div
+          class="widget-combobox-placeholder-text"
+        >
+          111
+        </div>
+      </div>
+      <button
+        aria-label="Clear selection"
+        class="widget-combobox-clear-button"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-clear-button-icon"
+            height="14"
+            viewBox="0 0 32 32"
+            width="14"
+          >
+            <path
+              d="M27.71 5.71004L26.29 4.29004L16 14.59L5.71004 4.29004L4.29004 5.71004L14.59 16L4.29004 26.29L5.71004 27.71L16 17.41L26.29 27.71L27.71 26.29L17.41 16L27.71 5.71004Z"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+      </button>
+      <div
+        class="widget-combobox-down-arrow"
+      >
+        <span
+          class="widget-combobox-icon-container"
+        >
+          <svg
+            class="widget-combobox-down-arrow-icon mx-icon-lined mx-icon-chevron-down"
+            height="16"
+            viewBox="0 0 32 32"
+            width="16"
+          >
+            <path
+              d="M16 23.41L4.29004 11.71L5.71004 10.29L16 20.59L26.29 10.29L27.71 11.71L16 23.41Z"
+            />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <div
+      class="widget-combobox-menu widget-combobox-menu-hidden"
+      style="visibility: hidden; position: fixed;"
+    >
+      <div
+        class="widget-combobox-menu-header widget-combobox-item"
+        tabindex="0"
+      >
+        <span
+          class="widget-combobox-menu-header-select-all-button widget-combobox-icon-container"
+        >
+          <input
+            checked=""
+            class="three-state-checkbox"
+            id="comboBox1-select-all-button"
+            type="checkbox"
+          />
+        </span>
+        <label
+          class="widget-combobox-caption-text"
+          for="comboBox1-select-all-button"
+        >
+          Select All
+        </label>
+      </div>
+      <ul
+        aria-labelledby="comboBox1-label"
+        class="widget-combobox-menu-list"
+        id="downshift-7-menu"
         role="listbox"
       />
     </div>

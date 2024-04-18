@@ -1,46 +1,77 @@
 import { createElement } from "react";
-import { mount, render, shallow } from "enzyme";
-import { Gallery, GalleryProps } from "../Gallery";
-import { ObjectItem, GUID } from "mendix";
+import { mount, render } from "enzyme";
+import { Gallery, GalleryProps } from "../../components/Gallery";
+import { ObjectItem } from "mendix";
+import { WidgetItemBuilder } from "../../utils/test-utils";
+import { listAction, listExp, objectItems } from "@mendix/widget-plugin-test-utils";
+import { ItemHelper } from "../../helpers/ItemHelper";
+import "./__mocks__/intersectionObserverMock";
+import { SelectActionHelper } from "../../helpers/SelectActionHelper";
+import { ItemEventsController } from "../../features/item-interaction/ItemEventsController";
+import { ClickActionHelper } from "../../helpers/ClickActionHelper";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { PositionController } from "@mendix/widget-plugin-grid/keyboard-navigation/PositionController";
+import { VirtualGridLayout } from "@mendix/widget-plugin-grid/keyboard-navigation/VirtualGridLayout";
+import { getColumnAndRowBasedOnIndex } from "@mendix/widget-plugin-grid/selection";
 
-const itemWrapperFunction =
-    ({
-        onClick,
-        customClass
-    }: {
-        onClick?: () => void;
-        customClass?: string;
-    }): GalleryProps<ObjectItem>["itemRenderer"] =>
-    (wrapper, item) =>
-        wrapper(false, item.id, customClass, onClick);
+function mockItemHelperWithAction(onClick: () => void): ItemHelper {
+    return WidgetItemBuilder.sample(b =>
+        b.withAction(
+            listAction(mockAction => {
+                const action = mockAction();
+                action.execute = onClick;
+                return action;
+            })
+        )
+    );
+}
 
-const defaultProps: GalleryProps<ObjectItem> = {
-    hasMoreItems: false,
-    page: 0,
-    pageSize: 10,
-    paging: false,
-    phoneItems: 2,
-    tabletItems: 3,
-    desktopItems: 4,
-    className: "",
-    items: [{ id: "11" as GUID }, { id: "22" as GUID }, { id: "33" as GUID }],
-    itemRenderer: itemWrapperFunction({}),
-    showHeader: true,
-    header: <input />
-};
+function mockProps(): GalleryProps<ObjectItem> {
+    const selectHelper = new SelectActionHelper("None", undefined);
+    const onClick = jest.fn();
+    const clickHelper = new ClickActionHelper(onClick);
+    const focusController = new FocusTargetController(new PositionController(), new VirtualGridLayout(3, 4, 10));
+
+    return {
+        hasMoreItems: false,
+        page: 0,
+        pageSize: 10,
+        paging: false,
+        phoneItems: 2,
+        tabletItems: 3,
+        desktopItems: 4,
+        className: "my-gallery",
+        ariaLabelListBox: "Mock props ListBox aria label",
+        headerTitle: "Mock props header aria label",
+        items: objectItems(3),
+        itemHelper: WidgetItemBuilder.sample(),
+        selectHelper,
+        showHeader: true,
+        header: <input />,
+        itemEventsController: new ItemEventsController(
+            item => ({ item, selectionType: selectHelper.selectionType }),
+            selectHelper.onSelect,
+            selectHelper.onSelectAll,
+            clickHelper.onExecuteAction,
+            focusController.dispatch,
+            selectHelper.onSelectAdjacentGrid,
+            3
+        ),
+        focusController,
+        getPosition: (index: number) => getColumnAndRowBasedOnIndex(3, 3, index)
+    };
+}
 
 describe("Gallery", () => {
     describe("DOM Structure", () => {
         it("renders correctly", () => {
-            const gallery = render(<Gallery {...defaultProps} />);
+            const gallery = render(<Gallery {...mockProps()} />);
 
             expect(gallery).toMatchSnapshot();
         });
 
         it("renders correctly with onclick event", () => {
-            const gallery = render(
-                <Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick: jest.fn() })} />
-            );
+            const gallery = render(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(jest.fn())} />);
 
             expect(gallery).toMatchSnapshot();
         });
@@ -49,8 +80,9 @@ describe("Gallery", () => {
     describe("with events", () => {
         it("triggers correct events on click", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
+            const itemHelper = mockItemHelperWithAction(onClick);
+            const gallery = mount(<Gallery {...mockProps()} itemHelper={itemHelper} />);
+            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
@@ -61,24 +93,26 @@ describe("Gallery", () => {
 
         it("triggers correct events on Enter key down", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
+            const gallery = mount(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(onClick)} />);
+            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("keydown", { key: "Enter" });
+            galleryFirstItem.simulate("keydown", { key: "Enter", code: "Enter" });
+            galleryFirstItem.simulate("keyup", { key: "Enter", code: "Enter" });
 
             expect(onClick).toBeCalled();
         });
 
         it("triggers correct events on Space key down", () => {
             const onClick = jest.fn();
-            const gallery = mount(<Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ onClick })} />);
-            const galleryFirstItem = gallery.find(".widget-gallery-clickable").at(0);
+            const gallery = mount(<Gallery {...mockProps()} itemHelper={mockItemHelperWithAction(onClick)} />);
+            const galleryFirstItem = gallery.find(".widget-gallery-item-button").at(0);
 
             expect(galleryFirstItem).toBeDefined();
 
-            galleryFirstItem.simulate("keydown", { key: " " });
+            galleryFirstItem.simulate("keydown", { key: " ", code: "Space" });
+            galleryFirstItem.simulate("keyup", { key: " ", code: "Space" });
 
             expect(onClick).toBeCalled();
         });
@@ -86,19 +120,19 @@ describe("Gallery", () => {
 
     describe("with different configurations per platform", () => {
         it("contains correct classes for desktop", () => {
-            const gallery = shallow(<Gallery {...defaultProps} desktopItems={12} />);
+            const gallery = mount(<Gallery {...mockProps()} desktopItems={12} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-lg-12")).toBeTruthy();
         });
 
         it("contains correct classes for tablet", () => {
-            const gallery = shallow(<Gallery {...defaultProps} tabletItems={6} />);
+            const gallery = mount(<Gallery {...mockProps()} tabletItems={6} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-md-6")).toBeTruthy();
         });
 
         it("contains correct classes for phone", () => {
-            const gallery = shallow(<Gallery {...defaultProps} phoneItems={3} />);
+            const gallery = mount(<Gallery {...mockProps()} phoneItems={3} />);
 
             expect(gallery.find(".widget-gallery-items").hasClass("widget-gallery-sm-3")).toBeTruthy();
         });
@@ -106,14 +140,17 @@ describe("Gallery", () => {
 
     describe("with custom classes", () => {
         it("contains correct classes in the wrapper", () => {
-            const gallery = shallow(<Gallery {...defaultProps} className="custom-class" />);
+            const gallery = mount(<Gallery {...mockProps()} className="custom-class" />);
 
             expect(gallery.hasClass("custom-class")).toBeTruthy();
         });
 
         it("contains correct classes in the items", () => {
-            const gallery = shallow(
-                <Gallery {...defaultProps} itemRenderer={itemWrapperFunction({ customClass: "custom-class" })} />
+            const gallery = mount(
+                <Gallery
+                    {...mockProps()}
+                    itemHelper={WidgetItemBuilder.sample(b => b.withItemClass(listExp(() => "custom-class")))}
+                />
             );
             const galleryFirstItem = gallery.find(".widget-gallery-item").at(0);
 
@@ -124,7 +161,7 @@ describe("Gallery", () => {
     describe("with pagination", () => {
         it("renders correctly", () => {
             const gallery = render(
-                <Gallery {...defaultProps} paging paginationPosition="above" numberOfItems={20} hasMoreItems />
+                <Gallery {...mockProps()} paging paginationPosition="above" numberOfItems={20} hasMoreItems />
             );
 
             expect(gallery).toMatchSnapshot();
@@ -134,7 +171,7 @@ describe("Gallery", () => {
             const setPage = jest.fn();
             const gallery = mount(
                 <Gallery
-                    {...defaultProps}
+                    {...mockProps()}
                     paging
                     paginationPosition="above"
                     numberOfItems={20}
@@ -156,7 +193,7 @@ describe("Gallery", () => {
         it("renders correctly", () => {
             const gallery = render(
                 <Gallery
-                    {...defaultProps}
+                    {...mockProps()}
                     items={[]}
                     emptyPlaceholderRenderer={renderWrapper => renderWrapper(<span>No items found</span>)}
                 />
@@ -170,7 +207,7 @@ describe("Gallery", () => {
         it("renders correctly", () => {
             const gallery = render(
                 <Gallery
-                    {...defaultProps}
+                    {...mockProps()}
                     items={[]}
                     headerTitle="filter title"
                     emptyMessageTitle="empty message"
@@ -184,7 +221,7 @@ describe("Gallery", () => {
 
     describe("without filters", () => {
         it("renders structure without header container", () => {
-            const filters = { ...defaultProps, showHeader: false, header: undefined };
+            const filters = { ...mockProps(), showHeader: false, header: undefined };
             const gallery = render(<Gallery {...filters} />);
 
             expect(gallery).toMatchSnapshot();

@@ -2,6 +2,7 @@ import { render, shallow } from "enzyme";
 import { createElement } from "react";
 import { Header, HeaderProps } from "../Header";
 import { ColumnResizer } from "../ColumnResizer";
+import { GridColumn } from "../../typings/GridColumn";
 
 describe("Header", () => {
     it("renders the structure correctly", () => {
@@ -51,7 +52,7 @@ describe("Header", () => {
 
     it("renders the structure correctly when filterable with custom filter", () => {
         const props = mockHeaderProps();
-        props.column.customFilter = (
+        const filterWidget = (
             <div>
                 <label>Date picker filter</label>
                 <input type="date" />
@@ -59,29 +60,30 @@ describe("Header", () => {
         );
         props.filterable = true;
 
-        const component = render(<Header {...props} />);
+        const component = render(<Header {...props} filterWidget={filterWidget} />);
 
         expect(component).toMatchSnapshot();
     });
 
     it("calls setSortBy store function with correct parameters when sortable", () => {
-        const column = {
-            id: "sortable",
-            index: 0,
-            header: "My sortable column",
-            canSort: true
-        } as any;
         const mockedFunction = jest.fn();
-        const component = shallow(
-            <Header {...mockHeaderProps()} column={column} sortable setSortBy={mockedFunction} />
-        );
+        const column = {
+            columnId: "0",
+            columnNumber: 0,
+            header: "My sortable column",
+            canSort: true,
+            sortDir: undefined,
+            toggleSort: mockedFunction
+        } as any;
+
+        const component = shallow(<Header {...mockHeaderProps()} column={column} sortable />);
 
         const clickableRegion = component.find(".column-header");
 
         expect(clickableRegion).toHaveLength(1);
 
         clickableRegion.simulate("click");
-        expect(mockedFunction).toBeCalledWith([{ id: "0", desc: false }]);
+        expect(mockedFunction).toHaveBeenCalled();
     });
 
     it("renders the structure correctly when filterable with custom classes", () => {
@@ -95,7 +97,7 @@ describe("Header", () => {
 
     it("renders the structure correctly when is hidden and preview", () => {
         const props = mockHeaderProps();
-        props.column.hidden = true;
+        props.column.initiallyHidden = true;
         props.hidable = true;
         props.preview = true;
 
@@ -116,23 +118,24 @@ describe("Header", () => {
 
 function mockHeaderProps(): HeaderProps {
     return {
+        gridId: "dg1",
         column: {
-            id: "dg1-column1",
-            index: 0,
-            header: "Test"
-        } as any,
+            columnId: "dg1-column0",
+            columnIndex: 0,
+            header: "Test",
+            sortDir: undefined,
+            toggleSort: () => undefined
+        } as GridColumn,
         draggable: false,
-        dragOver: "",
+        dropTarget: undefined,
         filterable: false,
+        filterWidget: undefined,
         hidable: false,
         resizable: false,
         resizer: <ColumnResizer setColumnWidth={jest.fn()} />,
         sortable: false,
-        setColumnOrder: jest.fn(),
-        setDragOver: jest.fn(),
-        visibleColumns: [],
-        setSortBy: jest.fn(),
-        setIsDragging: jest.fn(),
-        sortBy: []
+        swapColumns: jest.fn(),
+        setDropTarget: jest.fn(),
+        setIsDragging: jest.fn()
     };
 }

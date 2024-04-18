@@ -1,19 +1,20 @@
-import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
-import { createElement, ReactElement, Fragment } from "react";
-import { SingleSelector } from "../../helpers/types";
-import { ClearButton } from "../../assets/icons";
-import { SingleSelectionMenu } from "./SingleSelectionMenu";
-import { ComboboxWrapper } from "../ComboboxWrapper";
 import classNames from "classnames";
+import { Fragment, ReactElement, createElement, useRef } from "react";
+import { ClearButton } from "../../assets/icons";
+import { SelectionBaseProps, SingleSelector } from "../../helpers/types";
+import { useDownshiftSingleSelectProps } from "../../hooks/useDownshiftSingleSelectProps";
+import { ComboboxWrapper } from "../ComboboxWrapper";
+import { InputPlaceholder } from "../Placeholder";
+import { SingleSelectionMenu } from "./SingleSelectionMenu";
 
-interface SingleSelectionProps {
-    selector: SingleSelector;
-    tabIndex: number;
-    inputId?: string;
-    labelId?: string;
-}
-
-export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSelectionProps): ReactElement {
+export function SingleSelection({
+    selector,
+    tabIndex = 0,
+    a11yConfig,
+    keepMenuOpen,
+    menuFooterContent,
+    ...options
+}: SelectionBaseProps<SingleSelector>): ReactElement {
     const {
         getInputProps,
         getToggleButtonProps,
@@ -23,32 +24,57 @@ export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSe
         reset,
         isOpen,
         highlightedIndex
-    } = useDownshiftSingleSelectProps(selector, options);
-
+    } = useDownshiftSingleSelectProps(selector, options, a11yConfig.a11yStatusMessage);
+    const inputRef = useRef<HTMLInputElement>(null);
     return (
         <Fragment>
-            <ComboboxWrapper isOpen={isOpen} readOnly={selector.readOnly} getToggleButtonProps={getToggleButtonProps}>
-                <input
-                    className={classNames("widget-combobox-input", {
-                        "widget-combobox-input-nofilter": selector.options.filterType === "no"
+            <ComboboxWrapper
+                isOpen={isOpen || keepMenuOpen === true}
+                readOnly={selector.readOnly}
+                getToggleButtonProps={getToggleButtonProps}
+                validation={selector.validation}
+            >
+                <div
+                    className={classNames("widget-combobox-selected-items", {
+                        "widget-combobox-custom-content": selector.customContentType === "yes"
                     })}
-                    tabIndex={tabIndex}
-                    {...getInputProps(
-                        {
-                            disabled: selector.readOnly,
-                            readOnly: selector.options.filterType === "no"
-                        },
-                        { suppressRefError: true }
-                    )}
-                    placeholder={selector.caption.get(selectedItem)}
-                />
-                {!selector.readOnly && selector.clearable && selector.currentValue !== null && (
+                >
+                    <input
+                        className={classNames("widget-combobox-input", {
+                            "widget-combobox-input-nofilter": selector.options.filterType === "none"
+                        })}
+                        tabIndex={tabIndex}
+                        {...getInputProps(
+                            {
+                                disabled: selector.readOnly,
+                                readOnly: selector.options.filterType === "none",
+                                ref: inputRef
+                            },
+                            { suppressRefError: true }
+                        )}
+                        placeholder=" "
+                    />
+                    <InputPlaceholder
+                        isEmpty={!selector.currentId}
+                        type={selector.customContentType === "yes" ? "custom" : "text"}
+                    >
+                        {selector.caption.render(selectedItem, "label")}
+                    </InputPlaceholder>
+                </div>
+                {((!selector.readOnly && selector.clearable && selector.currentId !== null) ||
+                    (selector.selectorType === "static" &&
+                        selector.currentId !== null &&
+                        !selector.readOnly &&
+                        selector.clearable &&
+                        selector.attributeType !== "boolean")) && (
                     <button
                         tabIndex={tabIndex}
                         className="widget-combobox-clear-button"
+                        aria-label={a11yConfig.ariaLabels?.clearSelection}
                         onClick={e => {
                             e.stopPropagation();
-                            if (selectedItem) {
+                            inputRef.current?.focus();
+                            if (selectedItem || selector.selectorType === "static") {
                                 selector.setValue(null);
                                 reset();
                             }
@@ -63,8 +89,11 @@ export function SingleSelection({ selector, tabIndex = 0, ...options }: SingleSe
                 selectedItem={selectedItem}
                 getMenuProps={getMenuProps}
                 getItemProps={getItemProps}
-                isOpen={isOpen}
+                isOpen={isOpen || keepMenuOpen === true}
                 highlightedIndex={highlightedIndex}
+                menuFooterContent={menuFooterContent}
+                noOptionsText={options.noOptionsText}
+                alwaysOpen={keepMenuOpen}
             />
         </Fragment>
     );

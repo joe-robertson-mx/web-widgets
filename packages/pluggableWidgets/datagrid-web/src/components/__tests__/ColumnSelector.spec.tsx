@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { ColumnSelector, ColumnSelectorProps } from "../ColumnSelector";
-import { ColumnProperty } from "../Table";
+import { ColumnId, GridColumn } from "../../typings/GridColumn";
 
 let useIsElementInViewportMock = jest.fn(() => true);
 
@@ -11,8 +11,7 @@ jest.mock("../../utils/useIsElementInViewport", () => ({
     useIsElementInViewport: () => useIsElementInViewportMock()
 }));
 
-jest.mock("@mendix/pluggable-widgets-commons/dist/components/web", () => ({
-    ...jest.requireActual("@mendix/pluggable-widgets-commons/dist/components/web"),
+jest.mock("@mendix/widget-plugin-hooks/usePositionObserver", () => ({
     usePositionObserver: jest.fn((): DOMRect => ({ bottom: 0, right: 0 } as DOMRect))
 }));
 
@@ -88,18 +87,16 @@ describe("Column Selector", () => {
                     columns={
                         [
                             {
-                                id: "id",
-                                index: 0,
+                                columnId: "0" as ColumnId,
                                 header: "Test",
                                 canHide: true
                             },
                             {
-                                id: "id2",
-                                index: 1,
+                                columnId: "1" as ColumnId,
                                 header: "Test2",
                                 canHide: true
                             }
-                        ] as ColumnProperty[]
+                        ] as GridColumn[]
                     }
                 />
             );
@@ -128,30 +125,26 @@ describe("Column Selector", () => {
                     columns={
                         [
                             {
-                                id: "id",
-                                index: 0,
+                                columnId: "0" as ColumnId,
                                 header: "Test",
                                 canHide: true
                             },
                             {
-                                id: "id2",
-                                index: 1,
+                                columnId: "1" as ColumnId,
                                 header: "Test2",
                                 canHide: false
                             },
                             {
-                                id: "id3",
-                                index: 2,
+                                columnId: "2" as ColumnId,
                                 header: "Test3",
                                 canHide: true
                             },
                             {
-                                id: "id4",
-                                index: 3,
+                                columnId: "3" as ColumnId,
                                 header: "Test4",
                                 canHide: true
                             }
-                        ] as ColumnProperty[]
+                        ] as GridColumn[]
                     }
                 />
             );
@@ -182,14 +175,12 @@ function mockColumnSelectorProps(): ColumnSelectorProps {
     return {
         columns: [
             {
-                id: "id",
-                index: 1,
+                columnId: "1" as ColumnId,
                 header: "Test",
                 canHide: true
             }
-        ] as ColumnProperty[],
+        ] as GridColumn[],
         id: "selector-under-test",
-        hiddenColumns: [],
-        setHiddenColumns: jest.fn()
+        visibleLength: 1
     };
 }

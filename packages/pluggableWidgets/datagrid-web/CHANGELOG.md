@@ -6,6 +6,138 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.17.0] - 2024-04-17
+
+### Fixed
+
+-   Fixed an issue with default column colors in design mode.
+
+-   Fixed an issue with dynamic text not rendering.
+
+### Changed
+
+-   We have enhanced the swap behavior of the columns, making it more intuitive and user-friendly. This improvement also includes a slight adjustment to the classnames applied to the elements being swapped, providing better control over their styling.
+
+### Added
+
+-   We added the ability to store personalization configuration in the browser's local storage, in addition to the existing option of using an attribute.
+
+## [2.16.1] - 2024-04-16
+
+### Fixed
+
+-   We fixed an issue with sorting by columns that display dynamic text or custom content.
+
+## [2.16.0] - 2024-04-09
+
+### Added
+
+-   Limited the number of items rendered on design mode to 3.
+
+-   We have expanded the pagination options by introducing a new feature called 'Load more'. This option enables users to load additional data with the click of a button. Thank you, @sharadsums, for making this feature.
+
+### Changed
+
+-   Previously, if the attribute configured for storing personalization settings was changed externally, the data grid did not reflect these changes. Moving forward, the data grid widget will now automatically re-read and apply personalization settings whenever the underlying attribute changes.
+
+### Fixed
+
+-   We fixed an issue where the columns exported on ExportToExcel action are not the same as the ones visible on Datagrid 2.
+
+-   We made Visible property of columns required. It is no longer possible to leave the expression empty, therefore you will need to explicitly set a boolean value to set the visibility.
+
+## [2.15.0] - 2024-03-27
+
+### Added
+
+-   A new hook that subscribes the widget to external events.
+
+## [2.14.0] - 2024-03-06
+
+### Fixed
+
+-   We fixed an issue where the columns exported on ExportToExcel action are not the same as the ones visible on Datagrid 2.
+
+## [2.13.0] - 2024-02-05
+
+### Added
+
+-   Minimum width property for columns that use auto-fill. When needed, you can adjust how the column content is rendered on small screen sizes.
+
+-   We add a double click option for datagrid's row selection trigger.
+
+## [2.12.1] - 2024-01-23
+
+### Fixed
+
+-   We fixed an issue where Dynamic text values cells would be blank in exported .xlsx
+
+## [2.12.0] - 2024-01-16
+
+### Added
+
+-   We added pagination visibility configuration named "Show paging buttons" property. User can choose to always show pagination button or automatically hide based on number of data displayed. Thanks to @Andries-Smit for the help on this feature.
+
+### Fixed
+
+-   Fixed an issue with the header when using custom content in the column.
+
+-   Fixed an issue that caused the datagrid to crash after changing column settings when the attribute for saving the configuration was provided.
+
+## [2.11.0] - 2023-12-06
+
+### Added
+
+-   We added a new expression property named "Visible" in columns where the developer can select a column's visibility from the Datagrid. When using Datagrid, sometimes columns don't need to be shown. By adding "Visible" expression the developers can specify when they want to display columns. Special thanks to @Andries-Smit for the help on this feature.
+
+-   Improved keyboard navigation for better accessibility, which was implemented according to the WAI ARIA guide. Now it's possible to use arrows, page up, page down, home, and end buttons to navigate focus within a grid. Additionally, ctrl+home moves focus on the top-left corner (first cell), and ctrl+end moves focus on the bottom-right corner (last cell).
+
+## [2.10.4] - 2023-11-28
+
+### Fixed
+
+-   We fixed an issue where it was not possible to select a column in design mode by clicking on the column row.
+
+## [2.10.3] - 2023-11-21
+
+### Fixed
+
+-   We fixed an issue with clickable rows not having pointer (hand) cursor on hover.
+
+## [2.10.2] - 2023-11-13
+
+### Fixed
+
+-   Fixed a regression that was introduced in 2.10.0, where the column was missing a caption if the caption used parameters.
+
+## [2.10.1] - 2023-11-02
+
+### Fixed
+
+-   We fixed an issue where personalization settings were not always correctly restored.
+
+## [2.10.0] - 2023-10-31
+
+### Added
+
+-   A new API that allows data export from data sources configured in the data grid. Together with this addition, we introduce the "Export_To_Excel" JS action, which is a quick and easy way to export and save data as an XLSX document. This action is distributed as a part of "Data Widgets" module.
+
+## [2.9.0] - 2023-10-13
+
+### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+-   We fixed an issue where column selector and checkbox icon not aligned with filter control.
+
+-   We fixed issues with filter position overlapping below the next container.
+
+### Changed
+
+-   We changed DOM structure to allow sticky header on virtual scrolling pagination mode.
+
+-   We added keyboard support for multi selection (`Ctrl + A` and `Shift + Click`).
+
 ## [2.8.2] - 2023-08-25
 
 ### Fixed
@@ -138,7 +270,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Fixed
 
--   We fixed an issue with column hiding behaviour. Now user can't uncheck last visible column in the datagrid. (Ticket #144500)
+-   We fixed an issue with column hiding behavior. Now user can't uncheck last visible column in the datagrid. (Ticket #144500)
 
 ## [2.2.2] - 2022-01-19
 

@@ -3,7 +3,7 @@ import { ActionValue } from "mendix";
 import { createElement, ReactElement, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BasicItemsType, CustomItemsType, PopupMenuContainerProps, PositionEnum } from "../../typings/PopupMenuProps";
-import { useOnClickOutside } from "@mendix/widget-kit-web/hooks/useOnClickOutside";
+import { useOnClickOutside } from "@mendix/widget-plugin-hooks/useOnClickOutside";
 import { useMenuPlacement } from "../utils/useMenuPlacement";
 
 import {
@@ -43,12 +43,7 @@ export function Menu(props: MenuProps): ReactElement {
             <ul
                 ref={popupRef}
                 style={popupStyles}
-                className={classNames(
-                    "popupmenu-menu",
-                    `popupmenu-position-${props.position}`,
-                    "popup-portal",
-                    props.class
-                )}
+                className={classNames("popupmenu-menu", `popupmenu-position-${props.position}`, "popup-portal")}
             >
                 {menuOptions}
             </ul>

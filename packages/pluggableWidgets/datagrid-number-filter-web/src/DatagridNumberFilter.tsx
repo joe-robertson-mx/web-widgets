@@ -1,7 +1,9 @@
 import { createElement, ReactElement, useRef } from "react";
 import { DatagridNumberFilterContainerProps, DefaultFilterEnum } from "../typings/DatagridNumberFilterProps";
 import { FilterComponent } from "./components/FilterComponent";
-import { Alert, FilterType, getFilterDispatcher, generateUUID } from "@mendix/pluggable-widgets-commons/components/web";
+import { generateUUID } from "@mendix/widget-plugin-platform/framework/generate-uuid";
+import { Alert } from "@mendix/widget-plugin-component-kit/Alert";
+import { FilterType, getFilterDispatcher } from "@mendix/widget-plugin-filtering";
 import { Big } from "big.js";
 
 import {
@@ -21,6 +23,7 @@ import { translateFilters } from "./utils/filters";
 
 export default function DatagridNumberFilter(props: DatagridNumberFilterContainerProps): ReactElement {
     const id = useRef(`NumberFilter${generateUUID()}`);
+    const { current: defaultValue } = useRef(props.defaultValue?.value);
 
     const FilterContext = getFilterDispatcher();
     const alertMessage = (
@@ -65,7 +68,7 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
                     return alertMessage;
                 }
 
-                const defaultFilter = singleInitialFilter
+                const parentFilter = singleInitialFilter
                     ? translateFilters(singleInitialFilter)
                     : translateFilters(multipleInitialFilters?.[attributes[0].id]);
 
@@ -80,18 +83,20 @@ export default function DatagridNumberFilter(props: DatagridNumberFilterContaine
 
                 return (
                     <FilterComponent
+                        name={props.name}
+                        parentChannelName={filterContextValue.eventsChannelName ?? null}
                         adjustable={props.adjustable}
                         className={props.class}
-                        initialFilterType={defaultFilter?.type ?? props.defaultFilter}
-                        initialFilterValue={defaultFilter?.value ?? props.defaultValue?.value}
-                        inputChangeDelay={props.delay}
+                        defaultFilter={parentFilter?.type ?? props.defaultFilter}
+                        value={parentFilter?.value ?? defaultValue}
+                        changeDelay={props.delay}
                         id={id.current}
                         placeholder={props.placeholder?.value}
                         screenReaderButtonCaption={props.screenReaderButtonCaption?.value}
                         screenReaderInputCaption={props.screenReaderInputCaption?.value}
                         styles={props.style}
                         tabIndex={props.tabIndex}
-                        updateFilters={(value: Big | undefined, type: DefaultFilterEnum): void => {
+                        onChange={(value: Big | undefined, type: DefaultFilterEnum): void => {
                             props.valueAttribute?.setValue(value);
                             props.onChange?.execute();
                             const conditions = attributes

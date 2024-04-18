@@ -10,13 +10,15 @@
   },
   "type": "module",
   "main": "./dist/main.js",
+  "types": "./dist/main.d.ts",
   "exports": {
-    ".": "./dist/main.js"
+    ".": "./dist/main.js",
+    "./controls": "./dist/controls.js"
   },
   "typesVersions": {
     "*": {
-      "*": [
-        "./dist/main.d.ts"
+      "controls": [
+        "./dist/controls.d.ts"
       ]
     }
   },
@@ -37,6 +39,9 @@
     "@mendix/tsconfig-web-widgets": "workspace:*"
   },
   "dependencies": {
-    "@mendix/widget-kit-web": "workspace:*"
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@mendix/widget-plugin-external-events": "workspace:*",
+    "@mendix/widget-plugin-filter-selector": "workspace:*"
   }
 }

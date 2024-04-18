@@ -4,7 +4,7 @@ import classNames from "classnames";
 import { BubbleChartContainerProps, LinesType } from "../typings/BubbleChartProps";
 import { usePlotChartDataSeries, getPlotChartDataTransforms } from "@mendix/shared-charts/dist/hooks";
 import { calculateSizeRef } from "./utils";
-import { flatEqual, defaultEqual } from "@mendix/pluggable-widgets-commons/dist/utils/flatEqual";
+import { flatEqual, defaultEqual } from "@mendix/widget-plugin-platform/utils/flatEqual";
 import Big from "big.js";
 
 const bubbleChartLayoutOptions: ChartWidgetProps["layoutOptions"] = {
@@ -55,7 +55,7 @@ export const BubbleChart = memo(
 
         const chartBubbles = usePlotChartDataSeries(
             props.lines,
-            useCallback((line, dataPoints) => {
+            useCallback((line, dataPoints, { getExpressionValue }) => {
                 const size = getSizes(line);
                 const markerOptions = calculateSizeRef(
                     line,
@@ -67,11 +67,15 @@ export const BubbleChart = memo(
                         heightUnit: props.heightUnit
                     }
                 );
+                const markerColorExpression =
+                    line.dataSet === "static" ? line.staticMarkerColor : line.dynamicMarkerColor;
                 return {
                     type: "scatter",
                     mode: "markers",
                     marker: {
-                        color: line.markerColor?.value,
+                        color: markerColorExpression
+                            ? getExpressionValue<string>(markerColorExpression, dataPoints.dataSourceItems)
+                            : undefined,
                         symbol: ["circle"],
                         size,
                         ...markerOptions

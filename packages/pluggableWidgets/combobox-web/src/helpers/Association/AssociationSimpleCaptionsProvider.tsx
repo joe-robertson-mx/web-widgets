@@ -1,15 +1,21 @@
+import { DynamicValue, ListAttributeValue, ListExpressionValue, ListWidgetValue, ObjectItem } from "mendix";
 import { ReactNode, createElement } from "react";
-import { DynamicValue, ListAttributeValue, ListExpressionValue, ObjectItem } from "mendix";
-import { CaptionsProvider } from "../types";
+import { OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
+import { CaptionPlacement, CaptionsProvider } from "../types";
+import { CaptionContent } from "../utils";
 
 interface Props {
     emptyOptionText?: DynamicValue<string>;
     formattingAttributeOrExpression: ListExpressionValue<string> | ListAttributeValue<string>;
+    customContent?: ListWidgetValue | undefined;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
 }
 
 export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
     private unavailableCaption = "<...>";
     private formatter?: ListExpressionValue<string> | ListAttributeValue<string>;
+    protected customContent?: ListWidgetValue;
+    protected customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     emptyCaption = "";
 
     constructor(private optionsMap: Map<string, ObjectItem>) {}
@@ -22,6 +28,8 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
         }
 
         this.formatter = props.formattingAttributeOrExpression;
+        this.customContent = props.customContent;
+        this.customContentType = props.customContentType;
     }
 
     get(value: string | null): string {
@@ -35,6 +43,7 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
         if (!item) {
             return this.unavailableCaption;
         }
+
         const captionValue = this.formatter.get(item);
         if (captionValue.status === "unavailable") {
             return this.unavailableCaption;
@@ -43,7 +52,27 @@ export class AssociationSimpleCaptionsProvider implements CaptionsProvider {
         return captionValue.value ?? "";
     }
 
-    render(value: string | null): ReactNode {
-        return <span>{this.get(value)}</span>;
+    getCustomContent(value: string | null): ReactNode | null {
+        if (value === null) {
+            return null;
+        }
+        const item = this.optionsMap.get(value);
+        if (!item) {
+            return null;
+        }
+
+        return this.customContent?.get(item);
+    }
+
+    render(value: string | null, placement: CaptionPlacement, htmlFor?: string): ReactNode {
+        const { customContentType } = this;
+
+        return customContentType === "no" ||
+            (placement === "label" && customContentType === "listItem") ||
+            value === null ? (
+            <CaptionContent htmlFor={htmlFor}>{this.get(value)}</CaptionContent>
+        ) : (
+            <div className="widget-combobox-caption-custom">{this.getCustomContent(value)}</div>
+        );
     }
 }

@@ -1,7 +1,7 @@
 {
   "name": "@mendix/popup-menu-web",
   "widgetName": "PopupMenu",
-  "version": "3.5.1",
+  "version": "3.5.3",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
   "repository": {
@@ -42,13 +42,11 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.1",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*"
-  },
-  "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
-    "@mendix/widget-kit-web": "workspace:*",
+    "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-hooks": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
     "classnames": "^2.3.2"
   }
 }

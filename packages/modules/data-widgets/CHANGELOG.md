@@ -6,6 +6,306 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.17.0] DataWidgets - 2024-04-17
+
+### [2.17.0] Datagrid
+
+#### Fixed
+
+-   Fixed an issue with default column colors in design mode.
+
+-   Fixed an issue with dynamic text not rendering.
+
+#### Changed
+
+-   We have enhanced the swap behavior of the columns, making it more intuitive and user-friendly. This improvement also includes a slight adjustment to the classnames applied to the elements being swapped, providing better control over their styling.
+
+#### Added
+
+-   We added the ability to store personalization configuration in the browser's local storage, in addition to the existing option of using an attribute.
+
+## [2.16.1] DataWidgets - 2024-04-16
+
+### [2.16.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with sorting by columns that display dynamic text or custom content.
+
+## [2.16.0] DataWidgets - 2024-04-09
+
+### [2.16.0] Datagrid
+
+#### Added
+
+-   Limited the number of items rendered on design mode to 3.
+
+-   We have expanded the pagination options by introducing a new feature called 'Load more'. This option enables users to load additional data with the click of a button. Thank you, @sharadsums, for making this feature.
+
+#### Changed
+
+-   Previously, if the attribute configured for storing personalization settings was changed externally, the data grid did not reflect these changes. Moving forward, the data grid widget will now automatically re-read and apply personalization settings whenever the underlying attribute changes.
+
+#### Fixed
+
+-   We fixed an issue where the columns exported on ExportToExcel action are not the same as the ones visible on Datagrid 2.
+
+-   We made Visible property of columns required. It is no longer possible to leave the expression empty, therefore you will need to explicitly set a boolean value to set the visibility.
+
+### [1.7.0] Gallery
+
+#### Added
+
+-   Limited the number of items rendered on design mode to 3.
+
+## [2.15.0] DataWidgets - 2024-03-27
+
+### Fixed
+
+-   Fixed Datagrid Date Filter custom date formats throwing error. When customers try to use a custom format like `YYww.E` they were getting an error and also the output date were not correct.
+
+### Added
+
+-   New JS actions for resetting filters in Data grid 2 and Gallery. `Reset_All_Filters` resets all filters within Data grid 2 or Gallery. `Reset_Filter` resets a single filter.
+
+### [2.7.0] DatagridDateFilter
+
+#### Fixed
+
+-   Fixed custom date format throwing error. When customers try to use a custom format like `YYww.E` they were getting an error and also the output date were not correct.
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.6.0] DatagridDropdownFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.5.0] DatagridNumberFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.5.0] DatagridTextFilter
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [2.15.0] Datagrid
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+### [1.6.0] Gallery
+
+#### Added
+
+-   A new hook that subscribes the widget to external events.
+
+## [2.14.0] DataWidgets - 2024-03-06
+
+### [2.14.0] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where the columns exported on ExportToExcel action are not the same as the ones visible on Datagrid 2.
+
+### [1.5.0] Gallery
+
+#### Added
+
+-   We added a new feature to Gallery: Now it is possible to navigate on gallery items using keyboard.
+
+-   We added a new feature to Gallery: You can use the keyboard to select multiple items inside the gallery, just as simple as shift + arrow keys. You can also unselect an item with shift+space.
+
+## [2.13.0] DataWidgets - 2024-02-05
+
+### [2.13.0] Datagrid
+
+#### Added
+
+-   Minimum width property for columns that use auto-fill. When needed, you can adjust how the column content is rendered on small screen sizes.
+
+-   We add a double click option for datagrid's row selection trigger.
+
+## [2.12.1] DataWidgets - 2024-01-23
+
+### [2.12.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where Dynamic text values cells would be blank in exported .xlsx
+
+## [2.12.0] DataWidgets - 2024-01-16
+
+### [2.12.0] Datagrid
+
+#### Added
+
+-   We added pagination visibility configuration named "Show paging buttons" property. User can choose to always show pagination button or automatically hide based on number of data displayed. Thanks to @Andries-Smit for the help on this feature.
+
+#### Fixed
+
+-   Fixed an issue with the header when using custom content in the column.
+
+-   Fixed an issue that caused the datagrid to crash after changing column settings when the attribute for saving the configuration was provided.
+
+## [2.11.0] DataWidgets - 2023-12-06
+
+### [2.5.2] DatagridDropdownFilter
+
+#### Fixed
+
+-   We fixed lazy loading in dropdown filter not working issue (Ticket #200943).
+
+### [2.11.0] Datagrid
+
+#### Added
+
+-   We added a new expression property named "Visible" in columns where the developer can select a column's visibility from the Datagrid. When using Datagrid, sometimes columns don't need to be shown. By adding "Visible" expression the developers can specify when they want to display columns. Special thanks to @Andries-Smit for the help on this feature.
+
+-   Improved keyboard navigation for better accessibility, which was implemented according to the WAI ARIA guide. Now it's possible to use arrows, page up, page down, home, and end buttons to navigate focus within a grid. Additionally, ctrl+home moves focus on the top-left corner (first cell), and ctrl+end moves focus on the bottom-right corner (last cell).
+
+## [2.10.4] DataWidgets - 2023-11-28
+
+### [2.10.4] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where it was not possible to select a column in design mode by clicking on the column row.
+
+### [1.4.1] Gallery
+
+#### Fixed
+
+-   We fixed an issue with Gallery widget where infinite scroll was not creating scroll, blocking the user from scrolling and fetching more items.
+
+-   We fixed an editor preview issue with drag-and-drop as well as changed dropzone text to be appropriate.
+
+## [2.10.3] DataWidgets - 2023-11-21
+
+### [2.10.3] Datagrid
+
+#### Fixed
+
+-   We fixed an issue with clickable rows not having pointer (hand) cursor on hover.
+
+## [2.10.2] DataWidgets - 2023-11-13
+
+### [2.10.2] Datagrid
+
+#### Fixed
+
+-   Fixed a regression that was introduced in 2.10.0, where the column was missing a caption if the caption used parameters.
+
+## [2.10.1] DataWidgets - 2023-11-02
+
+### [2.10.1] Datagrid
+
+#### Fixed
+
+-   We fixed an issue where personalization settings were not always correctly restored.
+
+## [2.10.0] DataWidgets - 2023-10-31
+
+### Added
+
+-   A new "Export_To_Excel" JS action
+
+### [2.10.0] Datagrid
+
+#### Added
+
+-   A new API that allows data export from data sources configured in the data grid. Together with this addition, we introduce the "Export_To_Excel" JS action, which is a quick and easy way to export and save data as an XLSX document. This action is distributed as a part of "Data Widgets" module.
+
+### [1.4.0] Gallery
+
+#### Changed
+
+-   To better align with WAI ARIA web standards, in this release we change how items are selected using the keyboard (when selection is enabled): now to select or deselect items, the user should use the "shift+space" keyboard shortcut.
+
+#### Added
+
+-   This version introduces support for the "Select all" keyboard shortcut ("cmd+a" or "ctrl+a") that has effect when selection is enabled for the widget.
+
+-   A new feature: range selection. Starting from this version users may select a "range" of items by clicking on an item while pressing the shift key ("shift+click").
+
+#### Breaking changes
+
+-   To provide a better user experience and improve accessibility support, we introduced some minor changes to widget HTML and CSS. The most notable change is a new div element that will wrap each item if you enable the "On click" event in widget settings.
+
+## [2.9.0] DataWidgets - 2023-10-13
+
+### [2.6.2] DatagridDateFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.5.1] DatagridDropdownFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.4.3] DatagridNumberFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.4.3] DatagridTextFilter
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [2.9.0] Datagrid
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+-   We fixed an issue where column selector and checkbox icon not aligned with filter control.
+
+-   We fixed issues with filter position overlapping below the next container.
+
+#### Changed
+
+-   We changed DOM structure to allow sticky header on virtual scrolling pagination mode.
+
+-   We added keyboard support for multi selection (`Ctrl + A` and `Shift + Click`).
+
+### [1.1.2] DropdownSort
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [1.3.5] Gallery
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [1.0.3] SelectionHelper
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
+### [1.1.4] TreeNode
+
+#### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
 ## [2.8.8] DataWidgets - 2023-08-30
 
 ### [2.6.1] DatagridDateFilter

@@ -1,7 +1,19 @@
-import { createElement, ReactElement, ReactNode } from "react";
-import { InfiniteBody, Pagination } from "@mendix/pluggable-widgets-commons/components/web";
+import { Pagination } from "@mendix/widget-plugin-grid/components/Pagination";
+import { KeyNavProvider } from "@mendix/widget-plugin-grid/keyboard-navigation/context";
+import { FocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/FocusTargetController";
+import { PositionInGrid } from "@mendix/widget-plugin-grid/selection";
 import { ObjectItem } from "mendix";
-import classNames from "classnames";
+import { createElement, ReactElement, ReactNode } from "react";
+import { GalleryItemHelper } from "../typings/GalleryItem";
+import { ListBox } from "./ListBox";
+import { ListItem } from "./ListItem";
+import { GalleryContent } from "./GalleryContent";
+import { GalleryFooter } from "./GalleryFooter";
+import { GalleryHeader } from "./GalleryHeader";
+import { GalleryRoot } from "./GalleryRoot";
+import { GalleryTopBar } from "./GalleryTopBar";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { ItemEventsController } from "../typings/ItemEventsController";
 
 export interface GalleryProps<T extends ObjectItem> {
     className?: string;
@@ -13,25 +25,25 @@ export interface GalleryProps<T extends ObjectItem> {
     showHeader: boolean;
     hasMoreItems: boolean;
     items: T[];
-    itemRenderer: (
-        renderWrapper: (
-            selected: boolean,
-            children: ReactNode,
-            className?: string,
-            onClick?: () => void
-        ) => ReactElement,
-        item: T
-    ) => ReactNode;
     numberOfItems?: number;
     paging: boolean;
     page: number;
     pageSize: number;
     paginationPosition?: "below" | "above";
-    preview?: boolean;
+    showEmptyStatePreview?: boolean;
     phoneItems: number;
     setPage?: (computePage: (prevPage: number) => number) => void;
     tabletItems: number;
     tabIndex?: number;
+    ariaLabelListBox?: string;
+    preview?: boolean;
+
+    // Helpers
+    focusController: FocusTargetController;
+    itemEventsController: ItemEventsController;
+    itemHelper: GalleryItemHelper;
+    selectHelper: SelectActionHelper;
+    getPosition: (index: number) => PositionInGrid;
 }
 
 export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElement {
@@ -50,66 +62,47 @@ export function Gallery<T extends ObjectItem>(props: GalleryProps<T>): ReactElem
         </div>
     ) : null;
 
-    return (
-        <div className={classNames("widget-gallery", props.className)} data-focusindex={props.tabIndex || 0}>
-            {props.paginationPosition === "above" && pagination}
-            {props.showHeader ? (
-                <div className="widget-gallery-filter" role="section" aria-label={props.headerTitle}>
-                    {props.header}
-                </div>
-            ) : null}
+    const showTopBar = props.paging && props.paginationPosition === "above";
+    const showFooter = props.paging && props.paginationPosition === "below";
 
-            {props.items.length > 0 && props.itemRenderer && (
-                <InfiniteBody
-                    className={classNames(
-                        "widget-gallery-items",
-                        `widget-gallery-lg-${props.desktopItems}`,
-                        `widget-gallery-md-${props.tabletItems}`,
-                        `widget-gallery-sm-${props.phoneItems}`
-                    )}
-                    hasMoreItems={props.hasMoreItems}
-                    setPage={props.setPage}
-                    isInfinite={!props.paging}
-                    role="list"
-                >
-                    {props.items.map(item =>
-                        props.itemRenderer((selected, children, className, onClick) => {
-                            return (
-                                <div
+    return (
+        <GalleryRoot className={props.className} selectable={false} data-focusindex={props.tabIndex || 0}>
+            {showTopBar && <GalleryTopBar>{pagination}</GalleryTopBar>}
+            {props.showHeader && <GalleryHeader aria-label={props.headerTitle}>{props.header}</GalleryHeader>}
+            <GalleryContent hasMoreItems={props.hasMoreItems} setPage={props.setPage} isInfinite={!props.paging}>
+                {props.items.length > 0 && (
+                    <ListBox
+                        lg={props.desktopItems}
+                        md={props.tabletItems}
+                        sm={props.phoneItems}
+                        selectionType={props.selectHelper.selectionType}
+                        aria-label={props.ariaLabelListBox}
+                    >
+                        <KeyNavProvider focusController={props.focusController}>
+                            {props.items.map((item, index) => (
+                                <ListItem
+                                    preview={props.preview}
                                     key={`item_${item.id}`}
-                                    className={classNames("widget-gallery-item", className, {
-                                        "widget-gallery-clickable": !!onClick,
-                                        "widget-gallery-selected": selected
-                                    })}
-                                    onClick={onClick}
-                                    onKeyDown={
-                                        onClick
-                                            ? e => {
-                                                  if (e.key === "Enter" || e.key === " ") {
-                                                      e.preventDefault();
-                                                      onClick();
-                                                  }
-                                              }
-                                            : undefined
-                                    }
-                                    role={onClick ? "button" : "listitem"}
-                                    tabIndex={onClick ? 0 : undefined}
-                                >
-                                    {children}
-                                </div>
-                            );
-                        }, item)
-                    )}
-                </InfiniteBody>
-            )}
-            {(props.items.length === 0 || props.preview) &&
+                                    helper={props.itemHelper}
+                                    item={item}
+                                    selectHelper={props.selectHelper}
+                                    eventsController={props.itemEventsController}
+                                    getPosition={props.getPosition}
+                                    itemIndex={index}
+                                />
+                            ))}
+                        </KeyNavProvider>
+                    </ListBox>
+                )}
+            </GalleryContent>
+            {(props.items.length === 0 || props.showEmptyStatePreview) &&
                 props.emptyPlaceholderRenderer &&
                 props.emptyPlaceholderRenderer(children => (
-                    <div className="widget-gallery-empty" role="section" aria-label={props.emptyMessageTitle}>
+                    <section className="widget-gallery-empty" aria-label={props.emptyMessageTitle}>
                         <div className="empty-placeholder">{children}</div>
-                    </div>
+                    </section>
                 ))}
-            {props.paginationPosition === "below" && pagination}
-        </div>
+            {showFooter && <GalleryFooter>{pagination}</GalleryFooter>}
+        </GalleryRoot>
     );
 }

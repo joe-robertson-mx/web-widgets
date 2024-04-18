@@ -1,4 +1,8 @@
-import { StructurePreviewProps, ImageProps, DropZoneProps } from "@mendix/pluggable-widgets-commons";
+import {
+    StructurePreviewProps,
+    ImageProps,
+    DropZoneProps
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 import { MapsPreviewProps } from "../typings/MapsProps";

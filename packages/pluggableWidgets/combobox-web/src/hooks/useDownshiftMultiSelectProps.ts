@@ -1,14 +1,14 @@
 import {
     UseComboboxProps,
-    UseComboboxState,
     UseComboboxReturnValue,
+    UseComboboxState,
     UseComboboxStateChangeOptions,
+    UseMultipleSelectionReturnValue,
     useCombobox,
-    useMultipleSelection,
-    UseMultipleSelectionReturnValue
+    useMultipleSelection
 } from "downshift";
-import { useMemo } from "react";
-import { MultiSelector } from "../helpers/types";
+import { useMemo, useCallback } from "react";
+import { A11yStatusMessage, MultiSelector } from "../helpers/types";
 
 export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturnValue<string> &
     Pick<
@@ -21,8 +21,10 @@ export type UseDownshiftMultiSelectPropsReturnValue = UseMultipleSelectionReturn
         | "highlightedIndex"
         | "getItemProps"
         | "inputValue"
+        | "setInputValue"
     > & {
         items: string[];
+        toggleSelectedItem: (index: number) => void;
     };
 
 interface Options {
@@ -32,7 +34,8 @@ interface Options {
 
 export function useDownshiftMultiSelectProps(
     selector: MultiSelector,
-    options?: Options
+    options: Options,
+    a11yStatusMessage: A11yStatusMessage
 ): UseDownshiftMultiSelectPropsReturnValue {
     const {
         getSelectedItemProps,
@@ -44,7 +47,11 @@ export function useDownshiftMultiSelectProps(
         activeIndex,
         addSelectedItem
     } = useMultipleSelection({
-        selectedItems: selector.currentValue ?? [],
+        selectedItems: selector.currentId ?? [],
+        itemToString: (v: string) => selector.caption.get(v),
+        getA11yRemovalMessage(options) {
+            return `${options.itemToString(options.removedSelectedItem)} has been removed.`;
+        },
         onSelectedItemsChange({ selectedItems }) {
             selector.setValue(selectedItems ?? []);
         },
@@ -63,10 +70,7 @@ export function useDownshiftMultiSelectProps(
         }
     });
 
-    const items =
-        selector.selectedItemsStyle === "text"
-            ? selector.options.getAll()
-            : selector.options.getAll().filter(option => !selectedItems.includes(option));
+    const items = selector.getOptions();
 
     const {
         isOpen,
@@ -76,8 +80,35 @@ export function useDownshiftMultiSelectProps(
         getInputProps,
         highlightedIndex,
         getItemProps,
-        inputValue
-    } = useCombobox(useComboboxProps(selector, selectedItems, items, removeSelectedItem, setSelectedItems, options));
+        inputValue,
+        setInputValue,
+        closeMenu
+    } = useCombobox(
+        useComboboxProps(
+            selector,
+            selectedItems,
+            items,
+            removeSelectedItem,
+            setSelectedItems,
+            a11yStatusMessage,
+            options
+        )
+    );
+
+    const toggleSelectedItem = (index: number): void => {
+        const item = items[index];
+        if (item) {
+            if (selectedItems.includes(item)) {
+                removeSelectedItem(item);
+                setInputValue("");
+            } else {
+                addSelectedItem(item);
+                setInputValue("");
+            }
+        }
+    };
+
+    selector.onLeaveEvent = useCallback(closeMenu, [closeMenu]);
 
     return {
         isOpen,
@@ -88,6 +119,7 @@ export function useDownshiftMultiSelectProps(
         highlightedIndex,
         getItemProps,
         inputValue,
+        setInputValue,
         getSelectedItemProps,
         getDropdownProps,
         removeSelectedItem,
@@ -96,7 +128,8 @@ export function useDownshiftMultiSelectProps(
         items,
         setSelectedItems,
         activeIndex,
-        addSelectedItem
+        addSelectedItem,
+        toggleSelectedItem
     };
 }
 
@@ -106,6 +139,7 @@ function useComboboxProps(
     items: string[],
     removeSelectedItem: (item: string) => void,
     setSelectedItems: (item: string[]) => void,
+    a11yStatusMessage: A11yStatusMessage,
     options?: Options
 ): UseComboboxProps<string> {
     return useMemo(() => {
@@ -117,20 +151,41 @@ function useComboboxProps(
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
             },
+            getA11yStatusMessage(options) {
+                let message =
+                    selectedItems.length > 0
+                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItems
+                              .map(itemId => selector.caption.get(itemId))
+                              .join(",")}. `
+                        : "";
+                if (!options.resultCount) {
+                    return a11yStatusMessage.a11yNoOption;
+                }
+                if (!options.isOpen) {
+                    return message;
+                }
+                if (options.previousResultCount !== options.resultCount || !options.highlightedItem) {
+                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
+                }
+
+                return message;
+            },
             itemToString: (v: string | null) => selector.caption.get(v),
-            stateReducer(_state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
+            stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
                 switch (type) {
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
                         return {
                             ...changes,
-                            inputValue: ""
+                            inputValue: state.inputValue
                         };
-
-                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
+                    case useCombobox.stateChangeTypes.InputFocus:
+                        return {
+                            ...changes,
+                            isOpen: state.isOpen
+                        };
                     case useCombobox.stateChangeTypes.InputKeyDownEnter:
                     case useCombobox.stateChangeTypes.ItemClick:
-                    case useCombobox.stateChangeTypes.InputBlur:
                         return {
                             ...changes,
                             ...(changes.selectedItem && {
@@ -139,6 +194,18 @@ function useComboboxProps(
                                 highlightedIndex: items.indexOf(changes.selectedItem)
                             })
                         };
+                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
+                    case useCombobox.stateChangeTypes.FunctionCloseMenu:
+                        return {
+                            ...changes,
+                            ...(changes.selectedItem && {
+                                isOpen: false,
+                                inputValue: "",
+                                highlightedIndex: items.indexOf(changes.selectedItem)
+                            })
+                        };
+                    case useCombobox.stateChangeTypes.InputBlur:
+                        return { ...state, highlightedIndex: -1 };
                     default:
                         return changes;
                 }
@@ -158,7 +225,18 @@ function useComboboxProps(
                 }
             }
         };
-        // disable eslint rule as probably we should update props whenever currentValue changes.
+        // disable eslint rule as probably we should update props whenever currentId changes.
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selector, selectedItems, items, selector.currentValue, removeSelectedItem, setSelectedItems]);
+    }, [
+        selector,
+        selectedItems,
+        items,
+        selector.currentId,
+        removeSelectedItem,
+        setSelectedItems,
+        a11yStatusMessage.a11ySelectedValue,
+        a11yStatusMessage.a11yOptionsAvailable,
+        a11yStatusMessage.a11yNoOption,
+        a11yStatusMessage.a11yInstructions
+    ]);
 }

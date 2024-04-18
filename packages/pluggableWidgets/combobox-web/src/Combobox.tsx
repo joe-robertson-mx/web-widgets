@@ -9,12 +9,31 @@ import { useGetSelector } from "./hooks/useGetSelector";
 import { Placeholder } from "./components/Placeholder";
 
 export default function Combobox(props: ComboboxContainerProps): ReactElement {
-    const actionEvents = useActionEvents(props);
     const selector = useGetSelector(props);
+    const actionEvents = useActionEvents({
+        onEnterEvent: props.onEnterEvent,
+        onLeaveEvent: props.onLeaveEvent,
+        selector
+    });
     const commonProps = {
         tabIndex: props.tabIndex!,
         inputId: props.id,
-        labelId: `${props.id}-label`
+        labelId: `${props.id}-label`,
+        noOptionsText: props.noOptionsText?.value,
+        a11yConfig: {
+            ariaLabels: {
+                clearSelection: props.clearButtonAriaLabel?.value ?? "",
+                removeSelection: props.removeValueAriaLabel?.value ?? "",
+                selectAll: props.selectAllButtonCaption?.value ?? ""
+            },
+            a11yStatusMessage: {
+                a11ySelectedValue: props.a11ySelectedValue?.value ?? "",
+                a11yOptionsAvailable: props.a11yOptionsAvailable?.value ?? "",
+                a11yInstructions: props.a11yInstructions?.value ?? "",
+                a11yNoOption: props.noOptionsText?.value ?? ""
+            }
+        },
+        menuFooterContent: props.showFooter ? props.menuFooterContent : undefined
     };
 
     return (

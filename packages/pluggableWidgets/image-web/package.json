@@ -1,7 +1,7 @@
 {
   "name": "@mendix/image-web",
   "widgetName": "Image",
-  "version": "1.4.1",
+  "version": "1.4.3",
   "description": "Display an image and enlarge it on click",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "license": "Apache-2.0",
@@ -43,12 +43,12 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.1",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@mendix/run-e2e": "workspace:*"
+    "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
     "react-overlays": "^5.2.1"
   }

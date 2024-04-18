@@ -6,6 +6,62 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [3.0.2] - 2024-04-04
+
+### Fixed
+
+-   We fix issue with menubar and statusbar not showing on sub-folder deployment.
+
+## [3.0.1] - 2024-03-12
+
+### Changed
+
+-   We update the widget icons.
+
+### Fixed
+
+-   We removed toolbar, menubar, and statusbar on readonly.
+
+## [3.0.0] - 2024-02-28
+
+### Breaking changes
+
+-   Due to the end of life for CKEditor4, We have now build a new rich text editor with different engine, TinyMCE. This is a major version upgrade. The widget configuration is changing, please review your configuration after updating.
+
+## [2.3.0] - 2024-02-08
+
+### Fixed
+
+-   We disabled the version check from CKEditor 4, which generated security alert in all widget instances.
+
+### Added
+
+-   We add validation message for rich text editor.
+
+## [2.2.4] - 2023-11-29
+
+### Fixed
+
+-   We fix an issue with toolbars content incorrect display on mouse hover.
+
+## [2.2.3] - 2023-10-27
+
+### Fixed
+
+-   We fix an issue with Editor intermittenly not displaying data.
+
+## [2.2.2] - 2023-10-12
+
+### Breaking changes
+
+-   Added Insert toolbar group as an option for custom toolbar
+
+## [2.2.1] - 2023-09-27
+
+### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
 ## [2.2.0] - 2023-06-06
 
 ### Changed

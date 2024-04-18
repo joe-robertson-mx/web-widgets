@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.6.0] - 2024-03-27
+
+### Added
+
+-   A new hook that subscribes the widget to external events.
+
+## [2.5.2] - 2023-12-06
+
+### Fixed
+
+-   We fixed lazy loading in dropdown filter not working issue (Ticket #200943).
+
+## [2.5.1] - 2023-10-13
+
+### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
 ## [2.5.0] - 2023-08-10
 
 ### Changed

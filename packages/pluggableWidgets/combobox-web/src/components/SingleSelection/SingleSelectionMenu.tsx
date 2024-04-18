@@ -1,13 +1,17 @@
-import classNames from "classnames";
-import { PropGetters } from "downshift/typings";
-import { createElement, ReactElement } from "react";
+import { UseComboboxPropGetters } from "downshift/typings";
+import { createElement, ReactElement, ReactNode } from "react";
 import { SingleSelector } from "../../helpers/types";
+import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
+import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 
-interface ComboboxMenuProps extends Partial<PropGetters<any>> {
+interface ComboboxMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     selector: SingleSelector;
     highlightedIndex: number | null;
     selectedItem?: string | null;
+    noOptionsText?: string;
+    alwaysOpen?: boolean;
+    menuFooterContent?: ReactNode;
 }
 
 export function SingleSelectionMenu({
@@ -15,30 +19,35 @@ export function SingleSelectionMenu({
     selector,
     highlightedIndex,
     getMenuProps,
-    getItemProps
+    getItemProps,
+    noOptionsText,
+    alwaysOpen,
+    menuFooterContent
 }: ComboboxMenuProps): ReactElement {
+    const items = selector.options.getAll();
+
     return (
-        <ul
-            className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}
-            {...getMenuProps?.({}, { suppressRefError: true })}
+        <ComboboxMenuWrapper
+            isOpen={isOpen}
+            isEmpty={items?.length <= 0}
+            getMenuProps={getMenuProps}
+            noOptionsText={noOptionsText}
+            menuFooterContent={menuFooterContent}
+            alwaysOpen={alwaysOpen}
         >
-            {isOpen
-                ? selector.options.getAll().map((item, index) => (
-                      <li
-                          className={classNames("widget-combobox-item", {
-                              "widget-combobox-item-selected": selector.currentValue === item,
-                              "widget-combobox-item-highlighted": highlightedIndex === index
-                          })}
-                          key={item}
-                          {...getItemProps?.({
-                              index,
-                              item
-                          })}
-                      >
-                          {selector.caption.render(item)}
-                      </li>
-                  ))
-                : null}
-        </ul>
+            {isOpen &&
+                items.map((item, index) => (
+                    <ComboboxOptionWrapper
+                        key={item}
+                        isHighlighted={alwaysOpen ? false : highlightedIndex === index}
+                        isSelected={selector.currentId === item}
+                        item={item}
+                        getItemProps={getItemProps}
+                        index={index}
+                    >
+                        {selector.caption.render(item, "options")}
+                    </ComboboxOptionWrapper>
+                ))}
+        </ComboboxMenuWrapper>
     );
 }

@@ -1,7 +1,7 @@
 {
   "name": "@mendix/color-picker-web",
   "widgetName": "ColorPicker",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Change a color using a color input",
   "copyright": "© Mendix Technology BV 2023. All rights reserved.",
   "repository": {
@@ -43,14 +43,15 @@
   "devDependencies": {
     "@mendix/automation-utils": "workspace:*",
     "@mendix/eslint-config-web-widgets": "workspace:*",
-    "@mendix/pluggable-widgets-tools": "^9.24.1",
+    "@mendix/pluggable-widgets-tools": "^10.7.2",
     "@mendix/prettier-config-web-widgets": "workspace:*",
-    "@types/react-color": "^2.17.6",
     "@mendix/run-e2e": "workspace:*",
+    "@mendix/widget-plugin-component-kit": "workspace:*",
+    "@mendix/widget-plugin-platform": "workspace:*",
+    "@types/react-color": "^2.17.6",
     "cross-env": "^7.0.3"
   },
   "dependencies": {
-    "@mendix/pluggable-widgets-commons": "workspace:*",
     "classnames": "^2.3.2",
     "react-color": "^2.19.3"
   }

@@ -5,13 +5,21 @@ import {
     ListAttributeValueBuilder,
     ListValueBuilder,
     ReferenceValueBuilder
-} from "@mendix/pluggable-test-utils";
+} from "@mendix/widget-plugin-test-utils";
 import "@testing-library/jest-dom";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, RenderResult, act, waitFor } from "@testing-library/react";
 import { ObjectItem, DynamicValue } from "mendix";
 import { createElement } from "react";
 import { ComboboxContainerProps } from "../../typings/ComboboxProps";
 import Combobox from "../Combobox";
+
+// function helper to ease DOM changes in development
+async function getToggleButton(component: RenderResult): Promise<Element> {
+    return component.container.querySelector(".widget-combobox-down-arrow")!;
+}
+async function getInput(component: RenderResult): Promise<HTMLInputElement> {
+    return (await component.findByRole("combobox")) as HTMLInputElement;
+}
 
 describe("Combo box (Association)", () => {
     let defaultProps: ComboboxContainerProps;
@@ -19,6 +27,7 @@ describe("Combo box (Association)", () => {
         defaultProps = {
             name: "comboBox",
             id: "comboBox1",
+            source: "context",
             optionsSourceType: "association",
             attributeAssociation: new ReferenceValueBuilder().withValue({ id: "111" } as ObjectItem).build(),
             attributeEnumeration: new EditableValueBuilder<string>().build(),
@@ -32,11 +41,40 @@ describe("Combo box (Association)", () => {
             optionsSourceAssociationCaptionType: "expression",
             optionsSourceAssociationCaptionAttribute: new ListAttributeValueBuilder<string>().build(),
             optionsSourceAssociationCaptionExpression: buildListExpression("$currentObject/CountryName"),
+            optionsSourceAssociationCustomContentType: "no",
+            optionsSourceAssociationCustomContent: undefined,
             emptyOptionText: dynamicValue("Select an option 111"),
             ariaRequired: true,
             clearable: true,
             filterType: "contains",
-            selectedItemsStyle: "text"
+            selectedItemsStyle: "text",
+            clearButtonAriaLabel: dynamicValue("Clear selection"),
+            removeValueAriaLabel: dynamicValue("Remove value"),
+            selectAllButtonCaption: dynamicValue("Select All"),
+            selectAllButton: false,
+            selectionMethod: "checkbox",
+            a11ySelectedValue: dynamicValue("Selected value:"),
+            a11yOptionsAvailable: dynamicValue("Options available:"),
+            a11yInstructions: dynamicValue("a11yInstructions"),
+            showFooter: false,
+            databaseAttributeString: new EditableValueBuilder<string | Big>().build(),
+            optionsSourceDatabaseCaptionType: "attribute",
+            optionsSourceDatabaseDefaultValue: dynamicValue("empty value"),
+            optionsSourceDatabaseCustomContentType: "yes",
+            staticDataSourceCustomContentType: "no",
+            staticAttribute: new EditableValueBuilder<string>().build(),
+            optionsSourceStaticDataSource: [
+                {
+                    staticDataSourceValue: dynamicValue("value1"),
+                    staticDataSourceCustomContent: undefined,
+                    staticDataSourceCaption: dynamicValue("caption1")
+                },
+                {
+                    staticDataSourceValue: dynamicValue("value2"),
+                    staticDataSourceCustomContent: undefined,
+                    staticDataSourceCaption: dynamicValue("caption2")
+                }
+            ]
         };
         if (defaultProps.optionsSourceAssociationCaptionType === "expression") {
             defaultProps.optionsSourceAssociationCaptionExpression!.get = i => {
@@ -56,26 +94,23 @@ describe("Combo box (Association)", () => {
         const { container } = render(<Combobox {...defaultProps} />);
         expect(container.getElementsByClassName("widget-combobox-placeholder")).toHaveLength(1);
     });
-    it("toggles combobox menu on: input FOCUS / BLUR", async () => {
-        const component = render(<Combobox {...defaultProps} />);
-        const toggleButton = await component.findByRole("combobox");
-        fireEvent.focus(toggleButton);
-        expect(component.getAllByRole("option")).toHaveLength(4);
-        fireEvent.blur(toggleButton);
-        expect(component.queryAllByRole("option")).toHaveLength(0);
-    });
     it("toggles combobox menu on: input TOGGLE BUTTON", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const toggleButton = await component.container.querySelector(".widget-combobox-down-arrow")!;
-        fireEvent.click(toggleButton);
-        expect(component.getAllByRole("option")).toHaveLength(4);
-        fireEvent.click(toggleButton);
+        const toggleButton = await getToggleButton(component);
+        await act(() => {
+            fireEvent.click(toggleButton);
+        });
+        await waitFor(() => {
+            expect(component.getAllByRole("option")).toHaveLength(4);
+            fireEvent.click(toggleButton);
+        });
         expect(component.queryAllByRole("option")).toHaveLength(0);
     });
     it("sets option to selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
-        fireEvent.focus(input);
+        const input = await getInput(component);
+        const toggleButton = await getToggleButton(component);
+        fireEvent.click(toggleButton);
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
         expect(input.value).toEqual("222");
@@ -86,8 +121,12 @@ describe("Combo box (Association)", () => {
     it("removes selected item", async () => {
         const component = render(<Combobox {...defaultProps} />);
 
-        const input = (await component.findByRole("combobox")) as HTMLInputElement;
-        fireEvent.focus(input);
+        const input = await getInput(component);
+        const labelText = await component.container.querySelector(
+            ".widget-combobox-placeholder-text .widget-combobox-caption-text"
+        );
+        const toggleButton = await getToggleButton(component);
+        fireEvent.click(toggleButton);
 
         const option1 = await component.findByText("222");
         fireEvent.click(option1);
@@ -100,7 +139,7 @@ describe("Combo box (Association)", () => {
         const clearButton = await component.container.getElementsByClassName("widget-combobox-clear-button")[0];
         fireEvent.click(clearButton);
 
-        expect(input.placeholder).toEqual(defaultProps.emptyOptionText?.value);
+        expect(labelText?.innerHTML).toEqual(defaultProps.emptyOptionText?.value);
         expect(defaultProps.attributeAssociation?.value).toEqual(undefined);
     });
 });

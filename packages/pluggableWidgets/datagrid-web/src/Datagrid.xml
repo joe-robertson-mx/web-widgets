@@ -108,6 +108,11 @@
                                 <description />
                                 <returnType type="String" />
                             </property>
+                            <property key="visible" type="expression" required="true" defaultValue="true">
+                                <caption>Visible</caption>
+                                <description />
+                                <returnType type="Boolean" />
+                            </property>
                         </propertyGroup>
                         <propertyGroup caption="Column capabilities">
                             <property key="sortable" type="boolean" defaultValue="true">
@@ -141,6 +146,19 @@
                                     <enumerationValue key="autoFit">Auto-fit content</enumerationValue>
                                     <enumerationValue key="manual">Manual</enumerationValue>
                                 </enumerationValues>
+                            </property>
+                            <property key="minWidth" type="enumeration" defaultValue="auto">
+                                <caption>Min width</caption>
+                                <description />
+                                <enumerationValues>
+                                    <enumerationValue key="auto">Auto</enumerationValue>
+                                    <enumerationValue key="minContent">Set by content</enumerationValue>
+                                    <enumerationValue key="manual">Manual</enumerationValue>
+                                </enumerationValues>
+                            </property>
+                            <property key="minWidthLimit" type="integer" defaultValue="100">
+                                <caption>Min width value (px)</caption>
+                                <description />
                             </property>
                             <property key="size" type="integer" defaultValue="1">
                                 <caption>Column size</caption>
@@ -183,6 +201,7 @@
                     <enumerationValues>
                         <enumerationValue key="buttons">Paging buttons</enumerationValue>
                         <enumerationValue key="virtualScrolling">Virtual scrolling</enumerationValue>
+                        <enumerationValue key="loadMore">Load more</enumerationValue>
                     </enumerationValues>
                 </property>
                 <property key="pagingPosition" type="enumeration" defaultValue="bottom">
@@ -193,6 +212,21 @@
                         <enumerationValue key="top">Above grid</enumerationValue>
                         <enumerationValue key="both">Both</enumerationValue>
                     </enumerationValues>
+                </property>
+                <property key="showPagingButtons" type="enumeration" defaultValue="always">
+                    <caption>Show paging buttons</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="always">Always</enumerationValue>
+                        <enumerationValue key="auto">Auto</enumerationValue>
+                    </enumerationValues>
+                </property>
+                <property key="loadMoreButtonCaption" type="textTemplate" required="false">
+                    <caption>Load more caption</caption>
+                    <description />
+                    <translations>
+                        <translation lang="en_US">Load More</translation>
+                    </translations>
                 </property>
                 <property key="showEmptyPlaceholder" type="enumeration" defaultValue="none">
                     <caption>Empty list message</caption>
@@ -213,6 +247,14 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Events">
+                <property key="onClickTrigger" type="enumeration" defaultValue="single">
+                    <caption>On click trigger</caption>
+                    <description />
+                    <enumerationValues>
+                        <enumerationValue key="single">Single click</enumerationValue>
+                        <enumerationValue key="double">Double click</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="onClick" type="action" required="false" dataSource="datasource">
                     <caption>On click action</caption>
                     <description />
@@ -243,6 +285,14 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Configuration">
+                <property key="configurationStorageType" type="enumeration" defaultValue="attribute">
+                    <caption>Store configuration in</caption>
+                    <description>When Browser local storage is selected, the configuration is scoped to a browser profile. This configuration is not tied to a Mendix user.</description>
+                    <enumerationValues>
+                        <enumerationValue key="attribute">Attribute</enumerationValue>
+                        <enumerationValue key="localStorage">Browser local storage</enumerationValue>
+                    </enumerationValues>
+                </property>
                 <property key="configurationAttribute" type="attribute" required="false" onChange="onConfigurationChange">
                     <caption>Attribute</caption>
                     <description>Attribute containing the personalized configuration of the capabilities. This configuration is automatically stored and loaded. The attribute requires Unlimited String.</description>
@@ -287,10 +337,31 @@
             </propertyGroup>
         </propertyGroup>
         <propertyGroup caption="Accessibility">
-            <propertyGroup caption="Accessibility">
+            <propertyGroup caption="Aria labels">
                 <property key="filterSectionTitle" type="textTemplate" required="false">
-                    <caption>Filter section title</caption>
+                    <caption>Filter section</caption>
                     <description>Assistive technology will read this upon reaching a filtering or sorting section.</description>
+                </property>
+                <property key="exportDialogLabel" type="textTemplate" required="false">
+                    <caption>Export progress</caption>
+                    <description>Assistive technology will read this upon reaching a export dialog.</description>
+                    <translations>
+                        <translation lang="en_US">Export progress</translation>
+                    </translations>
+                </property>
+                <property key="cancelExportLabel" type="textTemplate" required="false">
+                    <caption>Cancel data export</caption>
+                    <description>Assistive technology will read this upon reaching a cancel button.</description>
+                    <translations>
+                        <translation lang="en_US">Cancel data export</translation>
+                    </translations>
+                </property>
+                <property key="selectRowLabel" type="textTemplate" required="false">
+                    <caption>Select row</caption>
+                    <description>If selection is enabled, assistive technology will read this upon reaching a checkbox.</description>
+                    <translations>
+                        <translation lang="en_US">Select row</translation>
+                    </translations>
                 </property>
             </propertyGroup>
         </propertyGroup>

@@ -1,16 +1,21 @@
-import classNames from "classnames";
-import { UseComboboxPropGetters } from "downshift";
-import { ReactElement, createElement } from "react";
+import { UseComboboxPropGetters } from "downshift/typings";
+import { ReactElement, ReactNode, createElement, MouseEvent } from "react";
 import { Checkbox } from "../../assets/icons";
 import { MultiSelector } from "../../helpers/types";
+import { ComboboxMenuWrapper } from "../ComboboxMenuWrapper";
+import { ComboboxOptionWrapper } from "../ComboboxOptionWrapper";
 
-interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<any>> {
+interface MultiSelectionMenuProps extends Partial<UseComboboxPropGetters<string>> {
     isOpen: boolean;
     selectableItems: string[];
     selectedItems: string[];
     highlightedIndex: number | null;
     selector: MultiSelector;
-    setSelectedItems: (v: string[]) => void;
+    noOptionsText?: string;
+    inputId?: string;
+    menuHeaderContent?: ReactNode;
+    menuFooterContent?: ReactNode;
+    onOptionClick?: (e: MouseEvent) => void;
 }
 
 export function MultiSelectionMenu({
@@ -19,36 +24,45 @@ export function MultiSelectionMenu({
     getItemProps,
     highlightedIndex,
     selector,
-    selectableItems
+    selectableItems,
+    noOptionsText,
+    inputId,
+    menuHeaderContent,
+    menuFooterContent,
+    onOptionClick
 }: MultiSelectionMenuProps): ReactElement {
     return (
-        <div className={classNames("widget-combobox-menu", { "widget-combobox-menu-hidden": !isOpen })}>
-            <ul className="widget-combobox-menu-list" {...getMenuProps?.({}, { suppressRefError: true })}>
-                {isOpen &&
-                    selectableItems.map((item, index) => {
-                        const isActive = highlightedIndex === index;
-                        const isSelected = selector.currentValue?.includes(item);
-                        const itemProps = getItemProps?.({
-                            item,
-                            index
-                        });
-                        return (
-                            <li
-                                className={classNames("widget-combobox-item", {
-                                    "widget-combobox-item-highlighted": isSelected || isActive
-                                })}
-                                key={item}
-                                {...itemProps}
-                                aria-selected={isSelected}
-                            >
-                                {selector.selectedItemsStyle === "text" && (
-                                    <Checkbox checked={selector.currentValue?.includes(item)} />
-                                )}
-                                {selector.caption.render(item)}
-                            </li>
-                        );
-                    })}
-            </ul>
-        </div>
+        <ComboboxMenuWrapper
+            isOpen={isOpen}
+            isEmpty={selectableItems.length <= 0}
+            getMenuProps={getMenuProps}
+            noOptionsText={noOptionsText}
+            highlightedIndex={highlightedIndex}
+            menuHeaderContent={menuHeaderContent}
+            menuFooterContent={menuFooterContent}
+            onOptionClick={onOptionClick}
+        >
+            {isOpen &&
+                selectableItems.map((item, index) => {
+                    const isActive = highlightedIndex === index;
+                    const isSelected = selector.currentId?.includes(item);
+
+                    return (
+                        <ComboboxOptionWrapper
+                            key={item}
+                            isHighlighted={isActive}
+                            isSelected={isSelected}
+                            item={item}
+                            getItemProps={getItemProps}
+                            index={index}
+                        >
+                            {selector.selectionMethod === "checkbox" && (
+                                <Checkbox checked={isSelected} id={`${inputId}_${item}`} />
+                            )}
+                            {selector.caption.render(item, "options", `${inputId}_${item}`)}
+                        </ComboboxOptionWrapper>
+                    );
+                })}
+        </ComboboxMenuWrapper>
     );
 }

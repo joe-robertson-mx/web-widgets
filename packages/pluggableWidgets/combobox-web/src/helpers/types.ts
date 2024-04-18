@@ -1,12 +1,25 @@
 import { ReactNode } from "react";
-import { ComboboxContainerProps, FilterTypeEnum, SelectedItemsStyleEnum } from "../../typings/ComboboxProps";
+import {
+    ComboboxContainerProps,
+    FilterTypeEnum,
+    OptionsSourceAssociationCustomContentTypeEnum,
+    SelectedItemsStyleEnum,
+    SelectionMethodEnum
+} from "../../typings/ComboboxProps";
+import { ThreeStateCheckBoxEnum } from "@mendix/widget-plugin-component-kit/ThreeStateCheckBox";
 
 export type Status = "unavailable" | "loading" | "available";
+export type CaptionPlacement = "label" | "options";
+export type SelectionType = "single" | "multi";
+export type Selector = SingleSelector | MultiSelector;
 
 export interface CaptionsProvider {
     get(value: string | null): string;
-    render(value: string | null): ReactNode;
+    render(value: (string | null) | (number | null), placement?: CaptionPlacement, htmlFor?: string): ReactNode;
     emptyCaption: string;
+}
+export interface ValuesProvider<T> {
+    get(key: string | null): T | undefined;
 }
 
 export interface OptionsProvider<T = unknown, P = object> {
@@ -21,8 +34,8 @@ export interface OptionsProvider<T = unknown, P = object> {
     onAfterSearchTermChange(callback: () => void): void;
 
     // lazy loading related
-    hasMore: boolean;
-    loadMore(): void;
+    hasMore?: boolean;
+    loadMore?(): void;
 
     // for private use
     _updateProps(props: P): void;
@@ -30,11 +43,14 @@ export interface OptionsProvider<T = unknown, P = object> {
     _valueToOption(value: T | undefined): string | null;
 }
 
-export interface SingleSelector {
+interface SelectorBase<T, V> {
     updateProps(props: ComboboxContainerProps): void;
     status: Status;
-    type: "single";
+    attributeType?: "string" | "big" | "boolean" | "date";
+    selectorType?: "context" | "database" | "static";
+    type: T;
     readOnly: boolean;
+    validation?: string;
 
     // options related
     options: OptionsProvider;
@@ -44,24 +60,45 @@ export interface SingleSelector {
 
     // value related
     clearable: boolean;
-    currentValue: string | null;
-    setValue(value: string | null): void;
+
+    currentId: V | null;
+    setValue(value: V | null): void;
+
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum;
+
+    onEnterEvent?: Function;
+    onLeaveEvent?: Function;
 }
-export interface MultiSelector {
-    updateProps(props: ComboboxContainerProps): void;
-    status: Status;
-    type: "multi";
-    readOnly: boolean;
+
+export interface SingleSelector extends SelectorBase<"single", string> {}
+export interface MultiSelector extends SelectorBase<"multi", string[]> {
     selectedItemsStyle: SelectedItemsStyleEnum;
+    selectionMethod: SelectionMethodEnum;
+    selectAllButton: boolean;
+    getOptions(): string[];
+    isOptionsSelected(): ThreeStateCheckBoxEnum;
+}
+export interface SelectionBaseProps<Selector> {
+    inputId: string;
+    labelId?: string;
+    noOptionsText?: string;
+    keepMenuOpen?: boolean;
+    selector: Selector;
+    menuFooterContent?: ReactNode;
+    tabIndex: number;
+    a11yConfig: {
+        ariaLabels: {
+            clearSelection: string;
+            removeSelection: string;
+            selectAll: string;
+        };
+        a11yStatusMessage: A11yStatusMessage;
+    };
+}
 
-    // options related
-    options: OptionsProvider;
-
-    // caption related
-    caption: CaptionsProvider;
-
-    // value related
-    clearable: boolean;
-    currentValue: string[] | null;
-    setValue(value: string[] | null): void;
+export interface A11yStatusMessage {
+    a11ySelectedValue: string;
+    a11yOptionsAvailable: string;
+    a11yInstructions: string;
+    a11yNoOption: string;
 }

@@ -12,26 +12,14 @@ export function getFullImageName(name, mendixVersion) {
     return `${REGISTRY}/${name}:${mendixVersion}`;
 }
 
-export function checkRegistry(image) {
-    try {
-        execSync(`docker manifest inspect ${image}`, { stdio: "pipe", encoding: "utf-8" });
-        return { exists: true };
-    } catch (error) {
-        if (error.status === 1 && error.stderr === "manifest unknown\n") {
-            return { exists: false };
-        }
-
-        throw error;
-    }
-}
-
 export async function buildImage(name, mendixVersion) {
     const image = getFullImageName(name, mendixVersion);
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
-    const dockerFile = p.join(dockerDir, `${name}.Dockerfile`);
+    const dockerFile = p.join(dockerDir, process.env.RC ? `${name}RC.Dockerfile` : `${name}.Dockerfile`);
     const runnumber = process.env.CI && process.env.GITHUB_RUN_ID;
 
     const args = [
+        `--platform=linux/amd64`,
         `--file ${dockerFile}`,
         `--build-arg MENDIX_VERSION=${mendixVersion}`,
         `--tag ${image}`,
@@ -55,16 +43,6 @@ export async function prepareImage(name, mendixVersion) {
         return image;
     }
 
-    if (!process.env.SKIP_DOCKER_PULL) {
-        console.log(`Checking ${prettyName} docker image in Github Container Registry...`);
-        const { exists } = checkRegistry(image);
-        if (exists) {
-            console.log(`Success, pull ${prettyName} from registry.`);
-            execSync(`docker pull ${image}`, { stdio: "inherit" });
-            return image;
-        }
-    }
-
     console.log(`Image not found, creating new ${prettyName} docker image...`);
     await buildImage(name, mendixVersion);
     return image;
@@ -74,6 +52,7 @@ export function createDeploymentBundle(mxbuildImage, projectFile) {
     console.log(`Start building deployment bundle.`);
 
     const mprPath = `/source/${projectFile}`;
+    const modernClient = process.env.MODERN_CLIENT || "";
 
     const subCommands = [
         // 1. Update widgets in project.
@@ -82,7 +61,7 @@ export function createDeploymentBundle(mxbuildImage, projectFile) {
         //      a. Check errors.
         //      b. Prepare `deployment` dir for mxruntime.
         // Output file is not used, so put it to tmp.
-        `mxbuild --output=/tmp/automation.mda ${mprPath}`
+        `mxbuild ${modernClient} --output=/tmp/automation.mda ${mprPath}`
     ];
     const args = [
         `--tty`,
@@ -165,24 +144,27 @@ export function startCypress(ip, freePort) {
     const REPO_ROOT = execSync(`git rev-parse --show-toplevel`).toString().trim();
     const browserCypress = process.env.BROWSER_CYPRESS || "chrome";
     const headedMode = process.env.HEADED_MODE || "";
+    const modernClientMode = process.env.MODERN_CLIENT ? "--env MODERN_CLIENT=true" : "";
     const startingPoint = p.resolve("/monorepo", p.relative(REPO_ROOT, process.cwd()));
 
     console.log("Start cypress in", startingPoint);
 
     const args = [
         `--tty`,
+        `--platform=linux/amd64`,
         `--volume ${REPO_ROOT}:/monorepo`,
         `--volume ${REPO_ROOT}/node_modules:/monorepo/node_modules:ro`,
         `--workdir ${startingPoint}`,
         // container name
         `--name cypress`,
         // image to run, the entrypoint set to `cypress run` by default
-        `cypress/included:12.16.0`,
+        `cypress/included:13.7.3`,
         // cypress options
         `--browser ${browserCypress} ${headedMode}`.trim(),
         `--e2e`,
+        `${modernClientMode}`,
         `--config-file cypress.config.cjs`,
-        `--config baseUrl=http://${ip}:${freePort},video=true,videoUploadOnPasses=false,viewportWidth=1280,viewportHeight=1080,testIsolation=false,chromeWebSecurity=false`
+        `--config baseUrl=http://${ip}:${freePort},video=true,viewportWidth=1280,viewportHeight=1080,testIsolation=false,chromeWebSecurity=false`
     ];
     const command = [`docker run`, ...args].join(" ");
 

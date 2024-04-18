@@ -1,21 +1,23 @@
-import { EditableValue, ActionValue } from "mendix";
-import { ComboboxContainerProps } from "../../../typings/ComboboxProps";
+import { executeAction } from "@mendix/widget-plugin-platform/framework/execute-action";
+import { ActionValue, EditableValue } from "mendix";
+import { ComboboxContainerProps, OptionsSourceAssociationCustomContentTypeEnum } from "../../../typings/ComboboxProps";
 import { SingleSelector, Status } from "../types";
-import { extractEnumerationProps } from "./utils";
 import { EnumAndBooleanSimpleCaptionsProvider } from "./EnumAndBooleanSimpleCaptionsProvider";
 import { EnumBoolOptionsProvider } from "./EnumBoolOptionsProvider";
-import { executeAction } from "@mendix/pluggable-widgets-commons";
+import { extractEnumerationProps } from "./utils";
 
 export class EnumBooleanSingleSelector implements SingleSelector {
     status: Status = "unavailable";
     type = "single" as const;
+    validation?: string = undefined;
     private isBoolean = false;
     private _attr: EditableValue<string | boolean> | undefined;
     private onChangeEvent?: ActionValue;
 
-    currentValue: string | null = null;
+    currentId: string | null = null;
     caption: EnumAndBooleanSimpleCaptionsProvider;
     options: EnumBoolOptionsProvider<string | boolean>;
+    customContentType: OptionsSourceAssociationCustomContentTypeEnum = "no";
     clearable = true;
     readOnly = false;
 
@@ -40,7 +42,7 @@ export class EnumBooleanSingleSelector implements SingleSelector {
 
         if (!attr || attr.status === "unavailable" || !emptyOption || emptyOption.status === "unavailable") {
             this.status = "unavailable";
-            this.currentValue = null;
+            this.currentId = null;
             this.clearable = true;
 
             return;
@@ -50,8 +52,9 @@ export class EnumBooleanSingleSelector implements SingleSelector {
         this.status = attr.status;
         this.isBoolean = typeof attr.universe?.[0] === "boolean";
         this.clearable = this.isBoolean ? false : clearable;
-        this.currentValue = attr.value?.toString() ?? null;
+        this.currentId = attr.value?.toString() ?? null;
         this.readOnly = attr.readOnly;
+        this.validation = attr.validation;
     }
 
     setValue(value: string | null): void {

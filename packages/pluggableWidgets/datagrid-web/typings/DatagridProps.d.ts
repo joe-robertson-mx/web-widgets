@@ -15,6 +15,8 @@ export type HidableEnum = "yes" | "hidden" | "no";
 
 export type WidthEnum = "autoFill" | "autoFit" | "manual";
 
+export type MinWidthEnum = "auto" | "minContent" | "manual";
+
 export type AlignmentEnum = "left" | "center" | "right";
 
 export interface ColumnsType {
@@ -28,22 +30,31 @@ export interface ColumnsType {
     filterAssociation?: ListReferenceValue | ListReferenceSetValue;
     filterAssociationOptions?: ListValue;
     filterAssociationOptionLabel?: ListExpressionValue<string>;
+    visible: DynamicValue<boolean>;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
     width: WidthEnum;
+    minWidth: MinWidthEnum;
+    minWidthLimit: number;
     size: number;
     alignment: AlignmentEnum;
     columnClass?: ListExpressionValue<string>;
     wrapText: boolean;
 }
 
-export type PaginationEnum = "buttons" | "virtualScrolling";
+export type PaginationEnum = "buttons" | "virtualScrolling" | "loadMore";
 
 export type PagingPositionEnum = "bottom" | "top" | "both";
 
+export type ShowPagingButtonsEnum = "always" | "auto";
+
 export type ShowEmptyPlaceholderEnum = "none" | "custom";
+
+export type OnClickTriggerEnum = "single" | "double";
+
+export type ConfigurationStorageTypeEnum = "attribute" | "localStorage";
 
 export interface FilterListType {
     filter: ListAttributeValue<string | Big | boolean | Date>;
@@ -60,11 +71,14 @@ export interface ColumnsPreviewType {
     filterAssociation: string;
     filterAssociationOptions: {} | { caption: string } | { type: string } | null;
     filterAssociationOptionLabel: string;
+    visible: string;
     sortable: boolean;
     resizable: boolean;
     draggable: boolean;
     hidable: HidableEnum;
     width: WidthEnum;
+    minWidth: MinWidthEnum;
+    minWidthLimit: number | null;
     size: number | null;
     alignment: AlignmentEnum;
     columnClass: string;
@@ -91,19 +105,26 @@ export interface DatagridContainerProps {
     pageSize: number;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
+    loadMoreButtonCaption?: DynamicValue<string>;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder?: ReactNode;
     rowClass?: ListExpressionValue<string>;
+    onClickTrigger: OnClickTriggerEnum;
     onClick?: ListActionValue;
     onSelectionChange?: ActionValue;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
     columnsHidable: boolean;
+    configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute?: EditableValue<string>;
     filterList: FilterListType[];
     filtersPlaceholder?: ReactNode;
     filterSectionTitle?: DynamicValue<string>;
+    exportDialogLabel?: DynamicValue<string>;
+    cancelExportLabel?: DynamicValue<string>;
+    selectRowLabel?: DynamicValue<string>;
 }
 
 export interface DatagridPreviewProps {
@@ -126,18 +147,25 @@ export interface DatagridPreviewProps {
     pageSize: number | null;
     pagination: PaginationEnum;
     pagingPosition: PagingPositionEnum;
+    showPagingButtons: ShowPagingButtonsEnum;
+    loadMoreButtonCaption: string;
     showEmptyPlaceholder: ShowEmptyPlaceholderEnum;
     emptyPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     rowClass: string;
+    onClickTrigger: OnClickTriggerEnum;
     onClick: {} | null;
     onSelectionChange: {} | null;
     columnsSortable: boolean;
     columnsResizable: boolean;
     columnsDraggable: boolean;
     columnsHidable: boolean;
+    configurationStorageType: ConfigurationStorageTypeEnum;
     configurationAttribute: string;
     onConfigurationChange: {} | null;
     filterList: FilterListPreviewType[];
     filtersPlaceholder: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     filterSectionTitle: string;
+    exportDialogLabel: string;
+    cancelExportLabel: string;
+    selectRowLabel: string;
 }

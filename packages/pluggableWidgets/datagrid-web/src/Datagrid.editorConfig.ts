@@ -7,13 +7,12 @@ import {
     StructurePreviewProps,
     text,
     structurePreviewPalette
-} from "@mendix/pluggable-widgets-commons";
+} from "@mendix/widget-plugin-platform/preview/structure-preview-api";
 import {
     changePropertyIn,
     hideNestedPropertiesIn,
     hidePropertiesIn,
     hidePropertyIn,
-    Problem,
     Properties,
     transformGroupsIntoTabs
 } from "@mendix/pluggable-widgets-tools";
@@ -56,6 +55,12 @@ export function getProperties(
         if (column.width !== "manual") {
             hidePropertyIn(defaultProperties, values, "columns", index, "size");
         }
+        if (column.width !== "autoFit") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "minWidth");
+        }
+        if (column.minWidth !== "manual") {
+            hidePropertyIn(defaultProperties, values, "columns", index, "minWidthLimit");
+        }
         if (!values.advanced && platform === "web") {
             hideNestedPropertiesIn(defaultProperties, values, "columns", index, [
                 "columnClass",
@@ -74,7 +79,11 @@ export function getProperties(
         }
     });
     if (values.pagination !== "buttons") {
+        hidePropertyIn(defaultProperties, values, "showPagingButtons");
         hidePropertyIn(defaultProperties, values, "pagingPosition");
+    }
+    if (values.pagination !== "loadMore") {
+        hidePropertyIn(defaultProperties, values, "loadMoreButtonCaption");
     }
     if (values.showEmptyPlaceholder === "none") {
         hidePropertyIn(defaultProperties, values, "emptyPlaceholder");
@@ -103,7 +112,7 @@ export function getProperties(
                     column.width === "autoFill"
                         ? "Auto-fill"
                         : column.width === "autoFit"
-                        ? "Auto-fit content"
+                        ? `Auto-fit content`
                         : `Manual (${column.size})`,
                     alignment ? alignment.charAt(0).toUpperCase() + alignment.slice(1) : ""
                 ];
@@ -136,6 +145,10 @@ export function getProperties(
         hidePropertyIn(defaultProperties, values, "advanced");
     }
 
+    if (values.configurationStorageType === "localStorage") {
+        hidePropertiesIn(defaultProperties, values, ["configurationAttribute", "onConfigurationChange"]);
+    }
+
     return defaultProperties;
 }
 
@@ -156,8 +169,8 @@ export const getPreview = (
     isDarkMode: boolean,
     spVersion: number[] = [0, 0, 0]
 ): StructurePreviewProps => {
-    const [x, y] = spVersion;
-    const canHideDataSourceHeader = x >= 9 && y >= 20;
+    const [major, minor] = spVersion;
+    const canHideDataSourceHeader = major > 9 || (major === 9 && minor >= 20);
     const palette = structurePreviewPalette[isDarkMode ? "dark" : "light"];
 
     const modeColor = (colorDark: string, colorLight: string): string => (isDarkMode ? colorDark : colorLight);
@@ -167,25 +180,28 @@ export const getPreview = (
         ? values.columns
         : [
               {
-                  header: "Column",
-                  tooltip: "",
+                  alignment: "left",
                   attribute: "",
-                  width: "autoFit",
                   columnClass: "",
+                  content: { widgetCount: 0, renderer: () => null },
+                  draggable: false,
+                  dynamicText: "Dynamic text",
                   filter: { widgetCount: 0, renderer: () => null },
+                  filterAssociation: "",
+                  filterAssociationOptionLabel: "",
+                  filterAssociationOptions: {},
+                  header: "Column",
+                  hidable: "no",
                   resizable: false,
                   showContentAs: "attribute",
-                  content: { widgetCount: 0, renderer: () => null },
-                  dynamicText: "Dynamic text",
-                  draggable: false,
-                  hidable: "no",
                   size: 1,
                   sortable: false,
-                  alignment: "left",
+                  tooltip: "",
+                  visible: "true",
+                  width: "autoFit",
                   wrapText: false,
-                  filterAssociation: "",
-                  filterAssociationOptions: {},
-                  filterAssociationOptionLabel: ""
+                  minWidth: "auto",
+                  minWidthLimit: 100
               }
           ];
     const columns = rowLayout({
@@ -247,27 +263,44 @@ export const getPreview = (
                         : undefined,
                 backgroundColor: isColumnHidden ? modeColor("#4F4F4F", "#DCDCDC") : palette.background.topbarStandard
             })(
-                container({
-                    padding: 8
+                rowLayout({
+                    columnSize: "grow"
                 })(
-                    text({
-                        bold: true,
-                        fontSize: 10,
-                        fontColor: column.header
-                            ? undefined
-                            : isColumnHidden
-                            ? modeColor("#4F4F4F", "#DCDCDC")
-                            : palette.text.secondary
-                    })(column.header ? column.header : "Header")
-                ),
-                ...(hasColumns && values.columnsFilterable
-                    ? [
-                          dropzone(
-                              dropzone.placeholder("Place filter widget here"),
-                              dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
-                          )(column.filter)
-                      ]
-                    : [])
+                    container({
+                        grow: 0,
+                        backgroundColor: "#AEEdAA"
+                    })(
+                        container({
+                            padding: column.visible.trim() === "" || column.visible.trim() === "true" ? 0 : 3
+                        })()
+                    ),
+                    container({
+                        padding: 8
+                    })(
+                        container({
+                            grow: 1,
+                            padding: 8
+                        })(
+                            text({
+                                bold: true,
+                                fontSize: 10,
+                                fontColor: column.header
+                                    ? undefined
+                                    : isColumnHidden
+                                    ? modeColor("#4F4F4F", "#DCDCDC")
+                                    : palette.text.secondary
+                            })(column.header ? column.header : "Header")
+                        ),
+                        ...(hasColumns && values.columnsFilterable
+                            ? [
+                                  dropzone(
+                                      dropzone.placeholder("Place filter widget here"),
+                                      dropzone.hideDataSourceHeaderIf(canHideDataSourceHeader)
+                                  )(column.filter)
+                              ]
+                            : [])
+                    )
+                )
             );
             return values.columns.length > 0
                 ? selectable(column, { grow: column.width === "manual" && column.size ? column.size : 1 })(
@@ -301,115 +334,7 @@ export const getPreview = (
     );
 };
 
-const columnPropPath = (prop: string, index: number): string => `columns/${index + 1}/${prop}`;
-
-const checkAssociationSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsFilterable) {
-        return;
-    }
-
-    if (!column.filterAssociation) {
-        return;
-    }
-
-    if (!column.filterAssociationOptionLabel) {
-        return {
-            property: columnPropPath("filterAssociationOptionLabel", index),
-            message: `A Caption is required when using associations. Please set 'Caption' property for column (${column.header})`
-        };
-    }
-};
-
-const checkFilteringSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsFilterable) {
-        return;
-    }
-
-    if (!column.attribute && !column.filterAssociation) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute or reference is required when filtering is enabled. Please select 'Attribute' or 'Reference' property for column (${column.header})`
-        };
-    }
-};
-
-const checkDisplaySettings = (
-    _values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (column.showContentAs === "attribute" && !column.attribute) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute is required when 'Show' is set to 'Attribute'. Select the 'Attribute' property for column (${column.header})`
-        };
-    }
-};
-
-const checkSortingSettings = (
-    values: DatagridPreviewProps,
-    column: ColumnsPreviewType,
-    index: number
-): Problem | undefined => {
-    if (!values.columnsSortable) {
-        return;
-    }
-
-    if (column.sortable && !column.attribute) {
-        return {
-            property: columnPropPath("attribute", index),
-            message: `An attribute is required when column sorting is enabled. Select the 'Attribute' property for column (${column.header}) or disable sorting in column settings`
-        };
-    }
-};
-
-const checkSelectionSettings = (values: DatagridPreviewProps): Problem[] => {
-    if (values.itemSelection !== "None" && values.onClick !== null) {
-        return [
-            {
-                property: "onClick",
-                message: '"On click action" must be set to "Do nothing" when "Selection" is enabled'
-            }
-        ];
-    }
-
-    return [];
-};
-
-export function check(values: DatagridPreviewProps): Problem[] {
-    const errors: Problem[] = [];
-
-    const columnChecks = [checkAssociationSettings, checkFilteringSettings, checkDisplaySettings, checkSortingSettings];
-
-    values.columns.forEach((column: ColumnsPreviewType, index) => {
-        for (const check of columnChecks) {
-            const error = check(values, column, index);
-            if (error) {
-                errors.push(error);
-            }
-        }
-
-        if (values.columnsHidable && column.hidable !== "no" && !column.header) {
-            errors.push({
-                property: columnPropPath("hidable", index),
-                message:
-                    "A caption is required if 'Can hide' is Yes or Yes, hidden by default. This can be configured under 'Column capabilities' in the column item properties"
-            });
-        }
-    });
-
-    errors.push(...checkSelectionSettings(values));
-
-    return errors;
-}
+export { check } from "./consistency-check";
 
 export function getCustomCaption(values: DatagridPreviewProps): string {
     type DsProperty = { caption?: string };

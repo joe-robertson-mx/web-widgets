@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [2.5.0] - 2024-03-27
+
+### Added
+
+-   A new hook that subscribes the widget to external events.
+
+## [2.4.3] - 2023-10-13
+
+### Fixed
+
+-   We removed redundant code to improve widget load time in the browser.
+
 ## [2.4.2] - 2023-06-21
 
 ### Fixed

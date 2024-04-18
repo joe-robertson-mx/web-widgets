@@ -5,13 +5,23 @@ import {
     copyThemesourceToProject,
     copyWidgetsToProject,
     runModuleSteps,
-    writeModuleVersion
+    writeModuleVersion,
+    copyActionsFiles
 } from "@mendix/automation-utils/steps";
+
+import { bundleXLSX } from "./steps/bundle-xlsx";
 
 async function main(): Promise<void> {
     await runModuleSteps({
         packagePath: process.cwd(),
-        steps: [copyThemesourceToProject, copyWidgetsToProject, writeModuleVersion, copyModuleLicense]
+        steps: [
+            copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js"]),
+            bundleXLSX,
+            copyThemesourceToProject,
+            writeModuleVersion,
+            copyModuleLicense,
+            copyWidgetsToProject
+        ]
     });
 }
 

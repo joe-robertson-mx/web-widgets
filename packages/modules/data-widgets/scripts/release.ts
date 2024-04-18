@@ -10,8 +10,11 @@ import {
     moveModuleToDist,
     removeDist,
     runModuleSteps,
-    writeModuleVersion
+    writeModuleVersion,
+    copyActionsFiles
 } from "@mendix/automation-utils/steps";
+
+import { bundleXLSX } from "./steps/bundle-xlsx";
 
 async function main(): Promise<void> {
     await runModuleSteps({
@@ -21,6 +24,8 @@ async function main(): Promise<void> {
             cloneTestProject,
             copyWidgetsToProject,
             copyThemesourceToProject,
+            copyActionsFiles(["Export_To_Excel.js", "Reset_All_Filters.js", "Reset_Filter.js"]),
+            bundleXLSX,
             writeModuleVersion,
             copyModuleLicense,
             createModuleMpk,

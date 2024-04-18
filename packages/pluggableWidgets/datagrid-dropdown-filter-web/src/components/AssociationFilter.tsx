@@ -1,10 +1,10 @@
 import {
-    ConditionDispatch,
+    DispatchFilterUpdate,
     AssociationProperties,
     getFilterAssociationProps
-} from "@mendix/pluggable-widgets-commons/dist/components/web";
-import { useLazyListValue } from "@mendix/pluggable-widgets-commons/dist/hooks/useLazyListValue";
-import { useOnScrollBottom } from "@mendix/pluggable-widgets-commons/dist/hooks/useOnScrollBottom";
+} from "@mendix/widget-plugin-filtering";
+import { useLazyListValue } from "@mendix/widget-plugin-hooks/useLazyListValue";
+import { useOnScrollBottom } from "@mendix/widget-plugin-hooks/useOnScrollBottom";
 import { createElement, ReactElement } from "react";
 import { getOnChange, getOptions } from "../features/referenceFilter";
 import { FilterProps } from "../utils/types";
@@ -38,11 +38,12 @@ function DropdownFooter(props: DropdownFooterProps): JSX.Element | null {
 }
 
 interface DropdownProps {
-    dispatch: ConditionDispatch;
+    dispatch: DispatchFilterUpdate;
     widgetProps: DatagridDropdownFilterContainerProps;
     associationProps: AssociationProperties;
+    eventsChannelName: string | null;
 }
-function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): ReactElement {
+function Dropdown({ dispatch, widgetProps, associationProps, eventsChannelName }: DropdownProps): ReactElement {
     const { association, optionsSource, getOptionLabel } = associationProps;
 
     const id = useDropdownId();
@@ -63,6 +64,8 @@ function Dropdown({ dispatch, widgetProps, associationProps }: DropdownProps): R
 
     return (
         <FilterComponent
+            name={widgetProps.name}
+            parentChannelName={eventsChannelName}
             id={id}
             updateFilters={onChange}
             options={options}
@@ -92,6 +95,7 @@ export function AssociationFilter({ context, widgetProps }: FilterProps): ReactE
             widgetProps={widgetProps}
             associationProps={associationProps.value}
             dispatch={context.filterDispatcher}
+            eventsChannelName={context.eventsChannelName ?? null}
         />
     );
 }

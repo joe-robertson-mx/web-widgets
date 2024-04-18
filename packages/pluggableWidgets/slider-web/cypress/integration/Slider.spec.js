@@ -51,27 +51,30 @@ describe("Slider widget", () => {
                 .should("have.css", "cursor")
                 .and("contains", "not-allowed");
         });
-
-        it("listens to a grid", () => {
-            cy.visit("/p/listen-to-grid");
-            cy.get(".mx-name-slider")
-                .find(".rc-slider-handle")
-                .should("have.css", "cursor")
-                .and("contains", "not-allowed");
-            cy.get(".mx-name-grid").find("td").eq(0).click();
-            cy.get(".mx-name-slider")
-                .find(".rc-slider-handle")
-                .should("have.attr", "style")
-                .and("contains", "left: 50%;");
-            cy.get(".mx-name-grid").find("td").eq(1).click();
-            cy.get(".mx-name-slider")
-                .find(".rc-slider-handle")
-                .should("have.attr", "style")
-                .and("contains", "left: 80%;");
-        });
+        // Conditional flag added to skip these tests when running on react client, because those widgets aren't supported in the react client
+        if (Cypress.env("MODERN_CLIENT") != true) {
+            it("listens to a grid", () => {
+                cy.visit("/p/listen-to-grid");
+                cy.get(".mx-name-slider")
+                    .find(".rc-slider-handle")
+                    .should("have.css", "cursor")
+                    .and("contains", "not-allowed");
+                cy.get(".mx-name-grid").find("td").eq(0).click();
+                cy.get(".mx-name-slider")
+                    .find(".rc-slider-handle")
+                    .should("have.attr", "style")
+                    .and("contains", "left: 50%;");
+                cy.get(".mx-name-grid").find("td").eq(1).click();
+                cy.get(".mx-name-slider")
+                    .find(".rc-slider-handle")
+                    .should("have.attr", "style")
+                    .and("contains", "left: 80%;");
+            });
+        }
 
         it("triggers a microflow after slide", () => {
             cy.visit("/p/after-slide");
+            cy.wait(2000);
             cy.dragAndDrop(
                 ".mx-name-sliderMicroflow .rc-slider-handle",
                 ".mx-name-sliderMicroflow .rc-slider .rc-slider-dot:nth-child(1)",
@@ -87,6 +90,7 @@ describe("Slider widget", () => {
 
         it("triggers a nanoflow after slide", () => {
             cy.visit("/p/after-slide");
+            cy.wait(2000);
             cy.dragAndDrop(
                 ".mx-name-sliderNanoflow .rc-slider-handle",
                 ".mx-name-sliderNanoflow .rc-slider .rc-slider-dot:nth-child(1)",

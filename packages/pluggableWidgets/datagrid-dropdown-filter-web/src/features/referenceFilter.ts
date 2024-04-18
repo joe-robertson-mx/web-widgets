@@ -1,10 +1,7 @@
-import {
-    referenceEqualsOneOf,
-    referenceSetContainsOneOf
-} from "@mendix/pluggable-widgets-commons/dist/builders/ConditionUtils";
-import { ConditionDispatch } from "@mendix/pluggable-widgets-commons/dist/components/web";
-import { tuple } from "@mendix/pluggable-widgets-commons/dist/utils/tuple";
+import { DispatchFilterUpdate } from "@mendix/widget-plugin-filtering";
+import { tuple } from "@mendix/widget-plugin-platform/utils/tuple";
 import { ActionValue, ListReferenceSetValue, ListReferenceValue, ObjectItem } from "mendix";
+import { referenceEqualsOneOf, referenceSetContainsOneOf } from "../utils/condition";
 import { Option } from "../utils/types";
 
 type ValueToObjectMap = Record<string, ObjectItem>;
@@ -27,7 +24,7 @@ export function getOptions<T extends ObjectItem>(items: T[], getLabel: (o: T) =>
 }
 
 export function getOnChange(
-    dispatch: ConditionDispatch,
+    dispatch: DispatchFilterUpdate,
     association: ListReferenceValue | ListReferenceSetValue,
     objectMap: ValueToObjectMap,
     onChangeAction?: ActionValue

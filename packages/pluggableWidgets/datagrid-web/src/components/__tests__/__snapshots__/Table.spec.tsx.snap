@@ -5,650 +5,28 @@ exports[`Table renders the structure correctly 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly for preview when no header is provided 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
     <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="tr"
-        role="row"
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
       >
         <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title=""
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label=""
-              class="column-header align-column-center"
-            >
-              <span>
-                 
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with column alignments 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr 1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-center"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test 2"
-        >
-          <div
-            class="column-container"
-            id="dg1-column1"
-          >
-            <div
-              aria-label="Test 2"
-              class="column-header align-column-right"
-            >
-              <span>
-                Test 2
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test 2
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with custom filtering 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-            <input
-              type="text"
-              value="dummy"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with dragging 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with dynamic row class 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr myclass"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with empty placeholder 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with filtering 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-            <input
-              type="text"
-              value="dummy"
-            />
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with header filters and a11y 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    aria-label="filter title"
-    class="header-filters"
-  >
-    <div
-      class="my-custom-filters"
-    >
-      <span />
-    </div>
-  </div>
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with header wrapper 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="my-custom-header"
+          class="tr"
+          role="row"
         >
           <div
             class="th"
+            data-column-id="0"
             role="columnheader"
             style="cursor:unset"
             title="Test"
@@ -668,22 +46,731 @@ exports[`Table renders the structure correctly with header wrapper 1`] = `
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
         <div
-          class="td td-borders"
-          role="cell"
+          class="tr"
+          role="row"
         >
-          Test
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly for preview when no header is provided 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title=""
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label=""
+                class="column-header align-column-center"
+              >
+                <span>
+                   
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr tr-preview"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-center"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with column alignments 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr 1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-center"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            class="th"
+            data-column-id="1"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test 2"
+          >
+            <div
+              class="column-container"
+              id="dg1-column1"
+            >
+              <div
+                aria-label="Test 2"
+                class="column-header align-column-right"
+              >
+                <span>
+                  Test 2
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-center"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+          <div
+            class="td td-borders align-column-right"
+            data-position="1,0"
+            role="gridcell"
+            tabindex="-1"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with custom filtering 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+              <input
+                type="text"
+                value="dummy"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with dragging 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with dynamic row class 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr myclass"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with empty placeholder 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with filtering 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+              <input
+                type="text"
+                value="dummy"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with header filters and a11y 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    aria-label="filter title"
+    class="widget-datagrid-header header-filters"
+  >
+    <div
+      class="my-custom-filters"
+    >
+      <span />
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
+          >
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with header wrapper 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="my-custom-header"
+          >
+            <div
+              class="th"
+              data-column-id="0"
+              role="columnheader"
+              style="cursor:unset"
+              title="Test"
+            >
+              <div
+                class="column-container"
+                id="dg1-column0"
+              >
+                <div
+                  aria-label="Test"
+                  class="column-header align-column-left"
+                >
+                  <span>
+                    Test
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tr"
+          role="row"
+        >
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -693,99 +780,110 @@ exports[`Table renders the structure correctly with hiding 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
     <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr fit-content(50px)"
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="tr"
-        role="row"
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr 54px"
       >
         <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
+          class="tr"
+          role="row"
         >
           <div
-            class="column-container"
-            id="dg1-column0"
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
           >
             <div
-              aria-label="Test"
-              class="column-header align-column-left"
+              class="column-container"
+              id="dg1-column0"
             >
-              <span>
-                Test
-              </span>
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            aria-label="Column selector"
+            class="th column-selector"
+            role="columnheader"
+            title="Column selector"
+          >
+            <div
+              class="column-selector-content"
+            >
+              <button
+                aria-controls="dg1-column-selectors"
+                aria-expanded="false"
+                aria-haspopup="true"
+                aria-label="Column selector"
+                class="btn btn-default column-selector-button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-eye fa-w-18"
+                  data-icon="eye"
+                  data-prefix="far"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M0.589893 7.715C0.724893 7.52 3.91989 3 7.99989 3C12.0799 3 15.2749 7.52 15.4099 7.715L15.6099 8L15.4099 8.285C15.2749 8.48 12.0799 13 7.99989 13C3.91989 13 0.724893 8.48 0.589893 8.285L0.389893 8L0.589893 7.715ZM1.62489 8C2.37489 8.96 4.98989 12 7.99989 12C11.0099 12 13.6249 8.96 14.3749 8C13.6249 7.04 11.0099 4 7.99989 4C4.98989 4 2.37489 7.04 1.62489 8ZM5.5 8C5.5 6.62 6.62 5.5 8 5.5C9.38 5.5 10.5 6.62 10.5 8C10.5 9.38 9.38 10.5 8 10.5C6.62 10.5 5.5 9.38 5.5 8ZM6.5 8C6.5 8.825 7.175 9.5 8 9.5C8.825 9.5 9.5 8.825 9.5 8C9.5 7.175 8.825 6.5 8 6.5C7.175 6.5 6.5 7.175 6.5 8Z"
+                    fill="currentColor"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
         <div
-          aria-label="Column selector"
-          class="th column-selector"
-          role="columnheader"
-          title="Column selector"
+          class="tr"
+          role="row"
         >
           <div
-            class="column-selector-content"
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
           >
-            <button
-              aria-controls="dg1-column-selectors"
-              aria-expanded="false"
-              aria-haspopup="true"
-              aria-label="Column selector"
-              class="btn btn-default column-selector-button"
+            <span
+              class="td-text"
             >
-              <svg
-                aria-hidden="true"
-                class="svg-inline--fa fa-eye fa-w-18"
-                data-icon="eye"
-                data-prefix="far"
-                focusable="false"
-                role="img"
-                viewBox="0 0 576 512"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M288 144a110.94 110.94 0 0 0-31.24 5 55.4 55.4 0 0 1 7.24 27 56 56 0 0 1-56 56 55.4 55.4 0 0 1-27-7.24A111.71 111.71 0 1 0 288 144zm284.52 97.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400c-98.65 0-189.09-55-237.93-144C98.91 167 189.34 112 288 112s189.09 55 237.93 144C477.1 345 386.66 400 288 400z"
-                  fill="currentColor"
-                />
-              </svg>
-            </button>
+              Formatted Attr value
+            </span>
           </div>
+          <div
+            class="td td-borders column-selector"
+            role="gridcell"
+            tabindex="-1"
+          />
         </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-        <div
-          aria-hidden="true"
-          class="td column-selector td-borders"
-        />
       </div>
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   />
 </div>
 `;
@@ -795,61 +893,69 @@ exports[`Table renders the structure correctly with paging 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
+    class="widget-datagrid-content sticky-table-container"
   >
     <div
-      class="table-content"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="tr"
-        role="row"
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
       >
         <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
+          class="tr"
+          role="row"
         >
           <div
-            class="column-container"
-            id="dg1-column0"
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
           >
             <div
-              aria-label="Test"
-              class="column-header align-column-left"
+              class="column-container"
+              id="dg1-column0"
             >
-              <span>
-                Test
-              </span>
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
         <div
-          class="td td-borders"
-          role="cell"
+          class="tr"
+          role="row"
         >
-          Test
+          <div
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
+          >
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
   <div
-    class="table-footer"
+    class="widget-datagrid-footer table-footer"
   >
     <div
       aria-label="Pagination"
@@ -949,162 +1055,30 @@ exports[`Table renders the structure correctly with resizing 1`] = `
   class="test widget-datagrid"
 >
   <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
+    class="widget-datagrid-content sticky-table-container infinite-loading"
   >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table renders the structure correctly with sorting 1`] = `
-<div
-  class="test widget-datagrid"
->
-  <div
-    class="table-header"
-  />
-  <div
-    class="sticky-sentinel"
-    style="height:1px;margin-bottom:-1px"
-  />
-  <div
-    class="table"
-    role="table"
-  >
-    <div
-      class="table-content infinite-loading"
-      role="rowgroup"
-      style="grid-template-columns:1fr"
-    >
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="th"
-          role="columnheader"
-          style="cursor:unset"
-          title="Test"
-        >
-          <div
-            class="column-container"
-            id="dg1-column0"
-          >
-            <div
-              aria-label="Test"
-              class="column-header align-column-left"
-            >
-              <span>
-                Test
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="tr"
-        role="row"
-      >
-        <div
-          class="td td-borders"
-          role="cell"
-        >
-          Test
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    class="table-footer"
-  />
-</div>
-`;
-
-exports[`Table with selection method checkbox render an extra column and add class to each selected cell 1`] = `
-<DocumentFragment>
-  <div
-    class="test widget-datagrid widget-datagrid-selection-method-checkbox"
-  >
-    <div
-      class="table-header"
-    />
     <div
       class="sticky-sentinel"
-      style="height: 1px; margin-bottom: -1px;"
+      style="height:1px;margin-bottom:-1px"
     />
     <div
-      class="table"
-      role="table"
+      class="widget-datagrid-grid table"
+      role="grid"
     >
       <div
-        class="table-content"
+        class="widget-datagrid-grid-body table-content"
         role="rowgroup"
-        style="grid-template-columns: fit-content(48px) 1fr;"
+        style="grid-template-columns:1fr"
       >
         <div
           class="tr"
           role="row"
         >
           <div
-            class="th widget-datagrid-col-select"
-            role="columnheader"
-          />
-          <div
             class="th"
+            data-column-id="0"
             role="columnheader"
-            style="cursor: unset;"
+            style="cursor:unset"
             title="Test"
           >
             <div
@@ -1123,69 +1097,253 @@ exports[`Table with selection method checkbox render an extra column and add cla
           </div>
         </div>
         <div
-          class="tr tr-selected"
+          class="tr"
           role="row"
         >
           <div
-            class="td widget-datagrid-col-select td-borders"
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
           >
-            <input
-              checked=""
-              tabindex="-1"
-              type="checkbox"
-            />
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table renders the structure correctly with sorting 1`] = `
+<div
+  class="test widget-datagrid"
+>
+  <div
+    class="widget-datagrid-content sticky-table-container infinite-loading"
+  >
+    <div
+      class="sticky-sentinel"
+      style="height:1px;margin-bottom:-1px"
+    />
+    <div
+      class="widget-datagrid-grid table"
+      role="grid"
+    >
+      <div
+        class="widget-datagrid-grid-body table-content"
+        role="rowgroup"
+        style="grid-template-columns:1fr"
+      >
+        <div
+          class="tr"
+          role="row"
+        >
           <div
-            class="td td-borders"
-            role="cell"
+            class="th"
+            data-column-id="0"
+            role="columnheader"
+            style="cursor:unset"
+            title="Test"
           >
-            Test
+            <div
+              class="column-container"
+              id="dg1-column0"
+            >
+              <div
+                aria-label="Test"
+                class="column-header align-column-left"
+              >
+                <span>
+                  Test
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <div
-          class="tr tr-selected"
+          class="tr"
           role="row"
         >
           <div
-            class="td widget-datagrid-col-select"
+            class="td td-borders align-column-left"
+            data-position="0,0"
+            role="gridcell"
+            tabindex="0"
           >
-            <input
-              checked=""
-              tabindex="-1"
-              type="checkbox"
-            />
-          </div>
-          <div
-            class="td"
-            role="cell"
-          >
-            Test
+            <span
+              class="td-text"
+            >
+              Formatted Attr value
+            </span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="widget-datagrid-footer table-footer"
+  />
+</div>
+`;
+
+exports[`Table with selection method checkbox render an extra column and add class to each selected row 1`] = `
+<DocumentFragment>
+  <div
+    class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-checkbox"
+  >
+    <div
+      class="widget-datagrid-content sticky-table-container"
+    >
+      <div
+        class="sticky-sentinel"
+        style="height: 1px; margin-bottom: -1px;"
+      />
+      <div
+        aria-multiselectable="false"
+        class="widget-datagrid-grid table"
+        role="grid"
+      >
         <div
-          class="tr tr-selected"
-          role="row"
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+          style="grid-template-columns: 48px 1fr;"
         >
           <div
-            class="td widget-datagrid-col-select"
+            class="tr"
+            role="row"
           >
-            <input
-              checked=""
-              tabindex="-1"
-              type="checkbox"
+            <div
+              class="th widget-datagrid-col-select"
+              role="columnheader"
             />
+            <div
+              class="th"
+              data-column-id="0"
+              role="columnheader"
+              style="cursor: unset;"
+              title="Test"
+            >
+              <div
+                class="column-container"
+                id="dg1-column0"
+              >
+                <div
+                  aria-label="Test"
+                  class="column-header align-column-left"
+                >
+                  <span>
+                    Test
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
           <div
-            class="td"
-            role="cell"
+            aria-selected="true"
+            class="tr tr-selected"
+            role="row"
           >
-            Test
+            <div
+              class="td td-borders clickable widget-datagrid-col-select"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <input
+                aria-label="Select row 1"
+                checked=""
+                data-position="0,0"
+                tabindex="0"
+                type="checkbox"
+              />
+            </div>
+            <div
+              class="td td-borders clickable align-column-left"
+              data-position="1,0"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <span
+                class="td-text"
+              >
+                Formatted Attr value
+              </span>
+            </div>
+          </div>
+          <div
+            aria-selected="true"
+            class="tr tr-selected"
+            role="row"
+          >
+            <div
+              class="td clickable widget-datagrid-col-select"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <input
+                aria-label="Select row 2"
+                checked=""
+                data-position="0,1"
+                tabindex="-1"
+                type="checkbox"
+              />
+            </div>
+            <div
+              class="td clickable align-column-left"
+              data-position="1,1"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <span
+                class="td-text"
+              >
+                Formatted Attr value
+              </span>
+            </div>
+          </div>
+          <div
+            aria-selected="true"
+            class="tr tr-selected"
+            role="row"
+          >
+            <div
+              class="td clickable widget-datagrid-col-select"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <input
+                aria-label="Select row 3"
+                checked=""
+                data-position="0,2"
+                tabindex="-1"
+                type="checkbox"
+              />
+            </div>
+            <div
+              class="td clickable align-column-left"
+              data-position="1,2"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <span
+                class="td-text"
+              >
+                Formatted Attr value
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="table-footer"
+      class="widget-datagrid-footer table-footer"
     >
       <div
         aria-label="Pagination"
@@ -1284,89 +1442,110 @@ exports[`Table with selection method checkbox render an extra column and add cla
 exports[`Table with selection method rowClick add class to each selected cell 1`] = `
 <DocumentFragment>
   <div
-    class="test widget-datagrid widget-datagrid-selection-method-click"
+    class="test widget-datagrid widget-datagrid-selectable-rows widget-datagrid-selection-method-click"
   >
     <div
-      class="table-header"
-    />
-    <div
-      class="sticky-sentinel"
-      style="height: 1px; margin-bottom: -1px;"
-    />
-    <div
-      class="table"
-      role="table"
+      class="widget-datagrid-content sticky-table-container"
     >
       <div
-        class="table-content"
-        role="rowgroup"
-        style="grid-template-columns: 1fr;"
+        class="sticky-sentinel"
+        style="height: 1px; margin-bottom: -1px;"
+      />
+      <div
+        aria-multiselectable="false"
+        class="widget-datagrid-grid table"
+        role="grid"
       >
         <div
-          class="tr"
-          role="row"
+          class="widget-datagrid-grid-body table-content"
+          role="rowgroup"
+          style="grid-template-columns: 1fr;"
         >
           <div
-            class="th"
-            role="columnheader"
-            style="cursor: unset;"
-            title="Test"
+            class="tr"
+            role="row"
           >
             <div
-              class="column-container"
-              id="dg1-column0"
+              class="th"
+              data-column-id="0"
+              role="columnheader"
+              style="cursor: unset;"
+              title="Test"
             >
               <div
-                aria-label="Test"
-                class="column-header align-column-left"
+                class="column-container"
+                id="dg1-column0"
               >
-                <span>
-                  Test
-                </span>
+                <div
+                  aria-label="Test"
+                  class="column-header align-column-left"
+                >
+                  <span>
+                    Test
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          class="tr tr-selected"
-          role="row"
-        >
           <div
-            class="td td-borders clickable"
-            role="button"
-            tabindex="0"
+            aria-selected="true"
+            class="tr tr-selected"
+            role="row"
           >
-            Test
+            <div
+              class="td td-borders clickable align-column-left"
+              data-position="0,0"
+              role="gridcell"
+              tabindex="0"
+            >
+              <span
+                class="td-text"
+              >
+                Formatted Attr value
+              </span>
+            </div>
           </div>
-        </div>
-        <div
-          class="tr tr-selected"
-          role="row"
-        >
           <div
-            class="td clickable"
-            role="button"
-            tabindex="0"
+            aria-selected="true"
+            class="tr tr-selected"
+            role="row"
           >
-            Test
+            <div
+              class="td clickable align-column-left"
+              data-position="0,1"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <span
+                class="td-text"
+              >
+                Formatted Attr value
+              </span>
+            </div>
           </div>
-        </div>
-        <div
-          class="tr tr-selected"
-          role="row"
-        >
           <div
-            class="td clickable"
-            role="button"
-            tabindex="0"
+            aria-selected="true"
+            class="tr tr-selected"
+            role="row"
           >
-            Test
+            <div
+              class="td clickable align-column-left"
+              data-position="0,2"
+              role="gridcell"
+              tabindex="-1"
+            >
+              <span
+                class="td-text"
+              >
+                Formatted Attr value
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="table-footer"
+      class="widget-datagrid-footer table-footer"
     >
       <div
         aria-label="Pagination"

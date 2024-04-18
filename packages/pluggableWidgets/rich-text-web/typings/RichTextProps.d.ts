@@ -3,36 +3,44 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { ActionValue, EditableValue } from "mendix";
+import { ActionValue, DynamicValue, EditableValue } from "mendix";
 
-export type EditorTypeEnum = "classic" | "inline";
+export type MenubarModeEnum = "hide" | "basic" | "full" | "custom";
 
 export type PresetEnum = "basic" | "standard" | "full" | "custom";
 
-export type ReadOnlyStyleEnum = "text" | "bordered" | "borderedToolbar";
+export type ToolbarModeEnum = "sliding" | "floating" | "scrolling" | "wrap";
+
+export type ToolbarLocationEnum = "auto" | "top" | "bottom" | "inline";
 
 export type WidthUnitEnum = "percentage" | "pixels";
 
 export type HeightUnitEnum = "percentageOfWidth" | "pixels" | "percentageOfParent";
 
+export type ResizeEnum = "false" | "true" | "both";
+
 export type ToolbarConfigEnum = "basic" | "advanced";
 
-export type CtItemTypeEnum = "seperator" | "About" | "Anchor" | "BGColor" | "Blockquote" | "Bold" | "BulletedList" | "Button" | "Checkbox" | "CodeSnippet" | "Copy" | "CreateDiv" | "Cut" | "Find" | "Flash" | "Font" | "FontSize" | "Form" | "Format" | "HiddenField" | "HorizontalRule" | "Iframe" | "Image" | "ImageButton" | "Indent" | "Italic" | "JustifyBlock" | "JustifyCenter" | "JustifyLeft" | "JustifyRight" | "Language" | "Link" | "Maximize" | "mendixlink" | "NewPage" | "NumberedList" | "Outdent" | "PageBreak" | "Paste" | "PasteFromWord" | "PasteText" | "Preview" | "Print" | "Radio" | "Redo" | "RemoveFormat" | "Replace" | "Scayt" | "Select" | "SelectAll" | "ShowBlocks" | "Smiley" | "Source" | "SpecialChar" | "Strike" | "Styles" | "Subscript" | "Superscript" | "Table" | "Templates" | "BidiLtr" | "BidiRtl" | "TextColor" | "TextField" | "Textarea" | "Underline" | "Undo" | "Unlink";
+export type CtItemTypeEnum = "separator" | "aligncenter" | "alignjustify" | "alignleft" | "alignnone" | "alignright" | "blockquote" | "backcolor" | "blocks" | "bold" | "copy" | "cut" | "fontfamily" | "fontsize" | "forecolor" | "hr" | "indent" | "italic" | "lineheight" | "newdocument" | "outdent" | "paste" | "pastetext" | "print" | "redo" | "remove" | "removeformat" | "selectall" | "strikethrough" | "subscript" | "superscript" | "underline" | "undo" | "visualaid" | "accordion" | "code" | "anchor" | "charmap" | "codesample" | "ltr" | "rtl" | "emoticons" | "fullscreen" | "help" | "image" | "insertdatetime" | "link" | "openlink" | "unlink" | "bullist" | "numlist" | "media" | "pagebreak" | "preview" | "searchreplace" | "table" | "tabledelete" | "tableinsertdialog" | "visualblocks" | "visualchars" | "wordcount";
 
 export interface AdvancedConfigType {
     ctItemType: CtItemTypeEnum;
-    ctItemToolbar: string;
 }
 
-export type EnterModeEnum = "paragraph" | "breakLines" | "blocks";
+export type MenubarConfigEnum = "basic" | "advanced";
 
-export type ShiftEnterModeEnum = "paragraph" | "breakLines" | "blocks";
+export type MenubarItemTypeEnum = "file" | "edit" | "insert" | "view" | "format" | "table" | "tools" | "help";
 
-export type AdvancedContentFilterEnum = "auto" | "custom";
+export interface AdvancedMenubarConfigType {
+    menubarItemType: MenubarItemTypeEnum;
+}
 
 export interface AdvancedConfigPreviewType {
     ctItemType: CtItemTypeEnum;
-    ctItemToolbar: string;
+}
+
+export interface AdvancedMenubarConfigPreviewType {
+    menubarItemType: MenubarItemTypeEnum;
 }
 
 export interface RichTextContainerProps {
@@ -40,75 +48,105 @@ export interface RichTextContainerProps {
     tabIndex?: number;
     id: string;
     stringAttribute: EditableValue<string>;
-    sanitizeContent: boolean;
-    advancedMode: boolean;
-    editorType: EditorTypeEnum;
+    menubarMode: MenubarModeEnum;
+    enableStatusBar: boolean;
     preset: PresetEnum;
-    readOnlyStyle: ReadOnlyStyleEnum;
+    toolbarMode: ToolbarModeEnum;
+    toolbarLocation: ToolbarLocationEnum;
     widthUnit: WidthUnitEnum;
     width: number;
     heightUnit: HeightUnitEnum;
     height: number;
+    onFocus?: ActionValue;
+    onBlur?: ActionValue;
+    extended_valid_elements?: DynamicValue<string>;
+    spellCheck: boolean;
+    highlight_on_focus: boolean;
+    resize: ResizeEnum;
     toolbarConfig: ToolbarConfigEnum;
-    documentGroup: boolean;
-    clipboardGroup: boolean;
-    editingGroup: boolean;
-    formsGroup: boolean;
-    separatorGroup: boolean;
-    basicStylesGroup: boolean;
-    paragraphGroup: boolean;
-    linksGroup: boolean;
-    separator2Group: boolean;
-    stylesGroup: boolean;
-    colorsGroup: boolean;
-    toolsGroup: boolean;
-    othersGroup: boolean;
+    basicstyle: boolean;
+    extendedstyle: boolean;
+    textalign: boolean;
+    clipboard: boolean;
+    fontstyle: boolean;
+    paragraph: boolean;
+    document: boolean;
+    history: boolean;
+    accordion: boolean;
+    code: boolean;
+    anchor: boolean;
+    direction: boolean;
+    link: boolean;
+    list: boolean;
+    preview: boolean;
+    table: boolean;
+    visualaid: boolean;
+    media: boolean;
+    util: boolean;
+    emoticon: boolean;
+    remove: boolean;
     advancedConfig: AdvancedConfigType[];
-    onKeyPress?: ActionValue;
-    onChange?: ActionValue;
-    enterMode: EnterModeEnum;
-    shiftEnterMode: ShiftEnterModeEnum;
-    spellChecker: boolean;
-    codeHighlight: boolean;
-    advancedContentFilter: AdvancedContentFilterEnum;
-    allowedContent: string;
-    disallowedContent: string;
+    menubarConfig: MenubarConfigEnum;
+    fileMenubar: boolean;
+    editMenubar: boolean;
+    insertMenubar: boolean;
+    viewMenubar: boolean;
+    formatMenubar: boolean;
+    tableMenubar: boolean;
+    toolsMenubar: boolean;
+    helpMenubar: boolean;
+    advancedMenubarConfig: AdvancedMenubarConfigType[];
 }
 
 export interface RichTextPreviewProps {
     readOnly: boolean;
     stringAttribute: string;
-    sanitizeContent: boolean;
-    advancedMode: boolean;
-    editorType: EditorTypeEnum;
+    menubarMode: MenubarModeEnum;
+    enableStatusBar: boolean;
     preset: PresetEnum;
-    readOnlyStyle: ReadOnlyStyleEnum;
+    toolbarMode: ToolbarModeEnum;
+    toolbarLocation: ToolbarLocationEnum;
     widthUnit: WidthUnitEnum;
     width: number | null;
     heightUnit: HeightUnitEnum;
     height: number | null;
+    onFocus: {} | null;
+    onBlur: {} | null;
+    extended_valid_elements: string;
+    spellCheck: boolean;
+    highlight_on_focus: boolean;
+    resize: ResizeEnum;
     toolbarConfig: ToolbarConfigEnum;
-    documentGroup: boolean;
-    clipboardGroup: boolean;
-    editingGroup: boolean;
-    formsGroup: boolean;
-    separatorGroup: boolean;
-    basicStylesGroup: boolean;
-    paragraphGroup: boolean;
-    linksGroup: boolean;
-    separator2Group: boolean;
-    stylesGroup: boolean;
-    colorsGroup: boolean;
-    toolsGroup: boolean;
-    othersGroup: boolean;
+    basicstyle: boolean;
+    extendedstyle: boolean;
+    textalign: boolean;
+    clipboard: boolean;
+    fontstyle: boolean;
+    paragraph: boolean;
+    document: boolean;
+    history: boolean;
+    accordion: boolean;
+    code: boolean;
+    anchor: boolean;
+    direction: boolean;
+    link: boolean;
+    list: boolean;
+    preview: boolean;
+    table: boolean;
+    visualaid: boolean;
+    media: boolean;
+    util: boolean;
+    emoticon: boolean;
+    remove: boolean;
     advancedConfig: AdvancedConfigPreviewType[];
-    onKeyPress: {} | null;
-    onChange: {} | null;
-    enterMode: EnterModeEnum;
-    shiftEnterMode: ShiftEnterModeEnum;
-    spellChecker: boolean;
-    codeHighlight: boolean;
-    advancedContentFilter: AdvancedContentFilterEnum;
-    allowedContent: string;
-    disallowedContent: string;
+    menubarConfig: MenubarConfigEnum;
+    fileMenubar: boolean;
+    editMenubar: boolean;
+    insertMenubar: boolean;
+    viewMenubar: boolean;
+    formatMenubar: boolean;
+    tableMenubar: boolean;
+    toolsMenubar: boolean;
+    helpMenubar: boolean;
+    advancedMenubarConfig: AdvancedMenubarConfigPreviewType[];
 }

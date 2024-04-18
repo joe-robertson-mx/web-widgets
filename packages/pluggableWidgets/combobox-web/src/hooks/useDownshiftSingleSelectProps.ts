@@ -1,14 +1,14 @@
 import {
-    useCombobox,
-    UseComboboxState,
-    UseComboboxStateChangeOptions,
-    UseComboboxStateChange,
+    UseComboboxProps,
     UseComboboxReturnValue,
-    UseComboboxProps
+    UseComboboxState,
+    UseComboboxStateChange,
+    UseComboboxStateChangeOptions,
+    useCombobox
 } from "downshift";
 
-import { useMemo } from "react";
-import { SingleSelector } from "../helpers/types";
+import { useMemo, useCallback } from "react";
+import { A11yStatusMessage, SingleSelector } from "../helpers/types";
 
 interface Options {
     inputId?: string;
@@ -17,7 +17,8 @@ interface Options {
 
 export function useDownshiftSingleSelectProps(
     selector: SingleSelector,
-    options: Options = {}
+    options: Options = {},
+    a11yStatusMessage: A11yStatusMessage
 ): UseComboboxReturnValue<string> {
     const { inputId, labelId } = options;
 
@@ -31,18 +32,38 @@ export function useDownshiftSingleSelectProps(
             onInputValueChange({ inputValue }) {
                 selector.options.setSearchTerm(inputValue!);
             },
+            getA11yStatusMessage(options) {
+                const selectedItem = selector.caption.get(selector.currentId);
+                let message = selectedItem
+                    ? selector.currentId
+                        ? `${a11yStatusMessage.a11ySelectedValue} ${selectedItem}. `
+                        : "No options selected."
+                    : "";
+                if (!options.isOpen) {
+                    return message;
+                }
+                if (!options.resultCount) {
+                    return a11yStatusMessage.a11yNoOption;
+                }
+                if (options.resultCount > 0) {
+                    message += `${a11yStatusMessage.a11yOptionsAvailable} ${options.resultCount}. ${a11yStatusMessage.a11yInstructions}`;
+                } else {
+                    return a11yStatusMessage.a11yNoOption;
+                }
+
+                return message;
+            },
             defaultHighlightedIndex: 0,
             selectedItem: null,
-            initialInputValue: selector.caption.get(selector.currentValue),
+            initialInputValue: selector.caption.get(selector.currentId),
             stateReducer(state: UseComboboxState<string>, actionAndChanges: UseComboboxStateChangeOptions<string>) {
                 const { changes, type } = actionAndChanges;
-
                 switch (type) {
                     case useCombobox.stateChangeTypes.ToggleButtonClick:
                         return {
                             ...changes,
                             inputValue:
-                                state.isOpen && selector.currentValue ? selector.caption.get(selector.currentValue) : ""
+                                state.isOpen && selector.currentId ? selector.caption.get(selector.currentId) : ""
                         };
 
                     case useCombobox.stateChangeTypes.ControlledPropUpdatedSelectedItem:
@@ -51,23 +72,29 @@ export function useDownshiftSingleSelectProps(
                             inputValue:
                                 changes.inputValue === selector.caption.emptyCaption
                                     ? ""
-                                    : selector.caption.get(selector.currentValue)
+                                    : selector.caption.get(selector.currentId)
                         };
 
                     case useCombobox.stateChangeTypes.InputFocus:
-                        return { ...changes, inputValue: "" };
-
-                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
-                    case useCombobox.stateChangeTypes.InputBlur:
-                    case undefined:
                         return {
                             ...changes,
-                            inputValue:
-                                changes.selectedItem || selector.currentValue
-                                    ? selector.caption.get(selector.currentValue)
-                                    : ""
+                            isOpen: state.isOpen,
+                            inputValue: "",
+                            highlightedIndex: changes.selectedItem ? -1 : this.defaultHighlightedIndex
                         };
 
+                    case useCombobox.stateChangeTypes.InputKeyDownEscape:
+                    case useCombobox.stateChangeTypes.FunctionCloseMenu:
+                        return {
+                            ...changes,
+                            isOpen: false,
+                            inputValue:
+                                changes.selectedItem || selector.currentId
+                                    ? selector.caption.get(selector.currentId)
+                                    : ""
+                        };
+                    case useCombobox.stateChangeTypes.InputBlur:
+                        return state;
                     default:
                         return { ...changes };
                 }
@@ -75,11 +102,25 @@ export function useDownshiftSingleSelectProps(
             inputId,
             labelId
         };
-    }, [selector, inputId, labelId]);
+    }, [
+        selector,
+        inputId,
+        labelId,
+        a11yStatusMessage.a11ySelectedValue,
+        a11yStatusMessage.a11yOptionsAvailable,
+        a11yStatusMessage.a11yNoOption,
+        a11yStatusMessage.a11yInstructions
+    ]);
 
-    return useCombobox({
+    const returnVal = useCombobox({
         ...downshiftProps,
         items: selector.options.getAll() ?? [],
-        selectedItem: selector.currentValue
+        selectedItem: selector.currentId
     });
+
+    const { closeMenu } = returnVal;
+
+    selector.onLeaveEvent = useCallback(closeMenu, [closeMenu]);
+
+    return returnVal;
 }
