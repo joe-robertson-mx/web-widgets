@@ -1,5 +1,5 @@
 import { Dimensions } from "@mendix/pluggable-widgets-commons";
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 export interface ModeledMarker {
     address?: string;
     latitude?: number;
@@ -7,6 +7,7 @@ export interface ModeledMarker {
     title?: string;
     customMarker?: string;
     action?: () => void;
+    popup?: ReactNode;
 }
 
 export interface Marker {
@@ -15,6 +16,7 @@ export interface Marker {
     url: string;
     onClick?: () => void;
     title?: string;
+    popup?: ReactNode;
 }
 
 export interface SharedProps extends Dimensions {

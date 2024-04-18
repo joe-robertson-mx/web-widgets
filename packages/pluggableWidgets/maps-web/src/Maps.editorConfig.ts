@@ -1,4 +1,4 @@
-import { StructurePreviewProps } from "@mendix/pluggable-widgets-commons";
+import { StructurePreviewProps, ImageProps, DropZoneProps } from "@mendix/pluggable-widgets-commons";
 import { hidePropertiesIn, hidePropertyIn, Problem, Properties } from "@mendix/pluggable-widgets-tools";
 
 import { MapsPreviewProps } from "../typings/MapsProps";
@@ -193,8 +193,39 @@ export function check(values: MapsPreviewProps): Problem[] {
     return errors;
 }
 
+// export function getPreview(values: MapsPreviewProps): StructurePreviewProps {
+//     const { mapProvider, dynamicMarkers } = values;
+//     let image: string;
+
+//     dynamicMarkers.map (marker => {
+//         marker.popup
+//     })
+
+//     switch (mapProvider) {
+//         case "googleMaps":
+//             image = GoogleMapsSVG;
+//             break;
+//         case "mapBox":
+//             image = MapboxSVG;
+//             break;
+//         case "openStreet":
+//             image = OpenStreetMapSVG;
+//             break;
+//         case "hereMaps":
+//             image = HereMapsSVG;
+//             break;
+//     }
+
+//     return {
+//         type: "Image",
+//         document: decodeURIComponent(image.replace("data:image/svg+xml,", "")),
+//         width: 375,
+//         height: 375
+//     };
+// }
+
 export function getPreview(values: MapsPreviewProps): StructurePreviewProps {
-    const { mapProvider } = values;
+    const { mapProvider, dynamicMarkers } = values;
     let image: string;
 
     switch (mapProvider) {
@@ -212,10 +243,26 @@ export function getPreview(values: MapsPreviewProps): StructurePreviewProps {
             break;
     }
 
-    return {
+    const imageChild: ImageProps = {
         type: "Image",
         document: decodeURIComponent(image.replace("data:image/svg+xml,", "")),
         width: 375,
         height: 375
     };
+
+    const childrenDrop: DropZoneProps[] = dynamicMarkers.map(marker => {
+        return {
+            type: "DropZone",
+            property: marker.popup,
+            placeholder: `Place popup here for ${marker.title}`
+        };
+    });
+
+    const combinedArray: (ImageProps | DropZoneProps)[] = [imageChild, ...childrenDrop];
+
+    return {
+        type: "Container",
+        borders: true,
+        children: combinedArray
+    } as StructurePreviewProps;
 }

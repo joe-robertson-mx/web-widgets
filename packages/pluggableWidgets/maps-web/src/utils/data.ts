@@ -23,7 +23,7 @@ export function convertDynamicModeledMarker(marker: DynamicMarkersType): Modeled
 }
 
 function fromDatasource(marker: DynamicMarkersType, item: ObjectItem): ModeledMarker {
-    const { locationType, address: addr, latitude: lat, longitude: lng, onClickAttribute, title } = marker;
+    const { locationType, address: addr, latitude: lat, longitude: lng, onClickAttribute, title, popup } = marker;
     let address;
     let latitude;
     let longitude;
@@ -39,6 +39,7 @@ function fromDatasource(marker: DynamicMarkersType, item: ObjectItem): ModeledMa
         longitude,
         title: title ? title.get(item).value : "",
         action: onClickAttribute ? onClickAttribute.get(item).execute : undefined,
-        customMarker: marker.customMarkerDynamic?.value?.uri
+        customMarker: marker.customMarkerDynamic?.value?.uri,
+        popup: popup ? popup.get(item) : undefined
     };
 }

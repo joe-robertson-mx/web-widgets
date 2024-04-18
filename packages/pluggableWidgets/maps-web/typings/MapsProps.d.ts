@@ -3,8 +3,8 @@
  * WARNING: All changes made to this file will be overwritten
  * @author Mendix Widgets Framework Team
  */
-import { CSSProperties } from "react";
-import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, WebImage } from "mendix";
+import { ComponentType, CSSProperties, ReactNode } from "react";
+import { ActionValue, DynamicValue, ListValue, ListActionValue, ListAttributeValue, ListWidgetValue, WebImage } from "mendix";
 import { Big } from "big.js";
 
 export type LocationTypeEnum = "address" | "latlng";
@@ -33,6 +33,7 @@ export interface DynamicMarkersType {
     latitude?: ListAttributeValue<Big>;
     longitude?: ListAttributeValue<Big>;
     title?: ListAttributeValue<string>;
+    popup?: ListWidgetValue;
     onClickAttribute?: ListActionValue;
     markerStyleDynamic: MarkerStyleDynamicEnum;
     customMarkerDynamic?: DynamicValue<WebImage>;
@@ -64,6 +65,7 @@ export interface DynamicMarkersPreviewType {
     latitude: string;
     longitude: string;
     title: string;
+    popup: { widgetCount: number; renderer: ComponentType<{ children: ReactNode; caption?: string }> };
     onClickAttribute: {} | null;
     markerStyleDynamic: MarkerStyleDynamicEnum;
     customMarkerDynamic: { type: "static"; imageUrl: string; } | { type: "dynamic"; entity: string; } | null;

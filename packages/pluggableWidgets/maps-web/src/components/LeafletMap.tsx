@@ -110,7 +110,7 @@ export function LeafletMap(props: LeafletProps): ReactElement {
                                             style={{ cursor: marker.onClick ? "pointer" : "none" }}
                                             onClick={marker.onClick}
                                         >
-                                            {marker.title}
+                                            {marker.popup ? marker.popup : marker.title}
                                         </span>
                                     </Popup>
                                 )}

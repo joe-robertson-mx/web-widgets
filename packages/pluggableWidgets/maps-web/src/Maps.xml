@@ -115,6 +115,10 @@
                                         <attributeType name="String" />
                                     </attributeTypes>
                                 </property>
+                                <property key="popup" type="widgets" dataSource="markersDS" required="false">
+                                    <caption>Popup</caption>
+                                    <description>A customised popup to be shown when the marker is clicked</description>
+                                </property>
                             </propertyGroup>
                             <propertyGroup caption="Events">
                                 <property key="onClickAttribute" type="action" dataSource="markersDS" required="false">

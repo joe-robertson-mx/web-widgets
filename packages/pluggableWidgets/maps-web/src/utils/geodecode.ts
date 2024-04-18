@@ -24,7 +24,8 @@ export async function convertAddressToLatLng(locations?: ModeledMarker[], mapTok
         longitude: location.longitude!,
         url: location.customMarker || "",
         onClick: location.action,
-        title: location.title
+        title: location.title,
+        popup: location.popup
     }));
 
     if (unknownLatitudeLongitudes.length > 0) {

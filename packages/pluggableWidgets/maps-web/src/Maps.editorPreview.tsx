@@ -12,6 +12,9 @@ export const preview = (props: MapsPreviewProps): ReactNode => {
                 </Alert>
             )}
             <div className="widget-maps-preview" />
+            {props.dynamicMarkers.map(value => {
+                value.popup.renderer.chil;
+            })}
         </div>
     );
 };
